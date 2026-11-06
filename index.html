@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloze Test U46 測驗系統</title>
+    <title>高二適性單字測驗</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
@@ -12,29 +12,41 @@
     <div class="max-w-xl mx-auto px-4 py-8 w-full">
         <!-- 標題 -->
         <header class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-indigo-600">📝 Cloze Test U46 智能單字測驗</h1>
-            <p class="text-sm text-slate-500 mt-1">無伺服器端依賴，GitHub Pages 即開即玩</p>
+            <h1 class="text-2xl font-bold text-indigo-600">📝 高二適性單字測驗</h1>
+            <p class="text-sm text-slate-500 mt-1">115級真理之門專題生</p>
         </header>
 
         <!-- 使用者資訊與模式設定區 -->
         <section id="setup-section" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
-            <h2 class="text-lg font-semibold mb-3 text-slate-700">👤 使用者資料與模式</h2>
-            <div class="grid grid-cols-3 gap-3 mb-4">
-                <div>
-                    <label class="block text-xs font-medium text-slate-500 mb-1">姓名</label>
-                    <input type="text" id="user-name" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="您的姓名">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-slate-500 mb-1">班級</label>
-                    <input type="text" id="user-class" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="班級">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-slate-500 mb-1">座號</label>
-                    <input type="text" id="user-seat" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="座號">
-                </div>
+            <h2 class="text-lg font-semibold mb-3 text-slate-700">👤 選擇學生與測驗模式</h2>
+            
+            <!-- 學生姓名下拉式選單 -->
+            <div class="mb-4">
+                <label class="block text-xs font-medium text-slate-500 mb-1">請選擇您的姓名</label>
+                <select id="student-select" class="w-full border border-slate-200 bg-white rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-700">
+                    <option value="" disabled selected>-- 請點選您的名字 --</option>
+                    <option value="張棨翔">張棨翔</option>
+                    <option value="陳廷宥">陳廷宥</option>
+                    <option value="張翔凱">張翔凱</option>
+                    <option value="項怡瑄">項怡瑄</option>
+                    <option value="夏翌眒">夏翌眒</option>
+                    <option value="朱恩萭">朱恩萭</option>
+                    <option value="張幼昕">張幼昕</option>
+                    <option value="林宸楷">林宸楷</option>
+                    <option value="李曜晴">李曜晴</option>
+                    <option value="張雯芯">張雯芯</option>
+                    <option value="陳予彤">陳予彤</option>
+                    <option value="施泓宇">施泓宇</option>
+                    <option value="劉定穎">劉定穎</option>
+                    <option value="張琦紜">張琦紜</option>
+                    <option value="張晉維">張晉維</option>
+                    <option value="陳楚弦">陳楚弦</option>
+                    <option value="何彥澄">何彥澄</option>
+                    <option value="陳柏亨">陳柏亨</option>
+                </select>
             </div>
 
-            <div>
+            <div class="mb-2">
                 <label class="block text-xs font-medium text-slate-500 mb-1">選擇測驗模式</label>
                 <div class="grid grid-cols-3 gap-2" id="mode-selector">
                     <button type="button" data-mode="1" class="mode-btn py-2 px-3 text-xs font-medium rounded-lg border border-indigo-600 bg-indigo-600 text-white transition">模式一<br>【手寫輸入】</button>
@@ -47,21 +59,33 @@
 
         <!-- 答題主畫面 -->
         <main id="quiz-section" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
-            <!-- 進度卡片 -->
+            <!-- 進度卡片與返回按鈕 -->
             <div class="bg-slate-100 p-3 rounded-xl mb-6">
-                <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
-                    <span id="progress-round-text">🎯 第 1 回合</span>
-                    <span id="progress-count-text">進度：1 / 10</span>
+                <div class="flex justify-between items-center mb-2">
+                    <span id="progress-round-text" class="text-xs font-semibold text-slate-600">🎯 第 1 回合</span>
+                    <button id="back-to-setup-btn" type="button" class="text-xs bg-white hover:bg-slate-200 text-indigo-600 border border-indigo-200 px-2.5 py-1 rounded-lg transition font-medium shadow-2xs">
+                        ⚙️ 回首頁 / 更換模式
+                    </button>
+                    <span id="progress-count-text" class="text-xs font-semibold text-slate-600">進度：1 / 5</span>
                 </div>
                 <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                    <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 10%"></div>
+                    <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 20%"></div>
                 </div>
             </div>
 
             <!-- 題目顯示區 -->
             <div class="mb-6">
-                <div id="question-title" class="text-xl font-bold text-slate-800 mb-2"></div>
-                <div id="question-sub" class="text-sm text-slate-500 mb-4"></div>
+                <div class="text-lg font-bold text-slate-800 mb-3 leading-relaxed">
+                    <span id="question-prefix">Q1. </span><span id="cloze-word-target" class="cursor-pointer text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 hover:bg-indigo-100 transition inline-block my-1" title="點擊顯示/隱藏完整單字">r_______e</span><span id="question-suffix"> with her new hairstyle.</span>
+                </div>
+                
+                <!-- 中文提示按鈕與展開區塊 -->
+                <div class="mb-4">
+                    <button id="toggle-hint-btn" type="button" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg transition font-medium inline-flex items-center gap-1">
+                        💡 顯示中文提示
+                    </button>
+                    <div id="question-sub" class="text-sm text-slate-500 mt-2 hidden bg-slate-50 p-3 rounded-xl border border-slate-100"></div>
+                </div>
 
                 <!-- 模式一：手寫輸入 -->
                 <div id="input-mode-container" class="space-y-3">
@@ -84,6 +108,7 @@
         <section id="result-section" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center mb-6">
             <h2 class="text-2xl font-bold text-slate-800 mb-2">🎉 測驗結算</h2>
             <div class="space-y-2 my-6 text-slate-600">
+                <p class="text-lg">學生姓名：<span id="res-student" class="font-bold text-indigo-600">-</span></p>
                 <p class="text-lg">總答題數：<span id="res-total" class="font-bold text-slate-800">0</span></p>
                 <p class="text-lg">正確題數：<span id="res-correct" class="font-bold text-emerald-600">0</span></p>
                 <p class="text-xl font-semibold">正確率：<span id="res-acc" class="text-indigo-600">0.0%</span></p>
@@ -105,35 +130,33 @@
 
     <!-- 頁尾 -->
     <footer class="text-center py-4 text-xs text-slate-400">
-        Cloze Test App &copy; 2026 - Powered by Static HTML & Tailwind
+        高二適性單字測驗 &copy; 2026 - 115級真理之門專題生
     </footer>
 
     <!-- 內嵌題庫與前端邏輯 -->
     <script>
-        // U46 題庫資料（內嵌以支援 GitHub Pages 靜態載入）
         const QUESTION_BANK = [
-            { "answer_en": "promising", "meaning_zh": "有前途的、有希望的", "cloze_en": "p________", "sent_zh": "She is a promising young artist with a bright future." },
-            { "answer_en": "achieve", "meaning_zh": "達成、實現", "cloze_en": "a______", "sent_zh": "Hard work is necessary to achieve your goals." },
-            { "answer_en": "challenge", "meaning_zh": "挑戰", "cloze_en": "c________", "sent_zh": "The project is a great challenge for our team." },
-            { "answer_en": "confident", "meaning_zh": "有信心的", "cloze_en": "c________", "sent_zh": "He is confident about passing the exam." },
-            { "answer_en": "development", "meaning_zh": "發展、開發", "cloze_en": "d__________", "sent_zh": "Technological development has changed our lives." },
-            { "answer_en": "efficient", "meaning_zh": "有效率的", "cloze_en": "e________", "sent_zh": "This new machine is much more efficient." },
-            { "answer_en": "feature", "meaning_zh": "特色、特徵", "cloze_en": "f______", "sent_zh": "A key feature of the new smartphone is its camera." },
-            { "answer_en": "global", "meaning_zh": "全球的", "cloze_en": "g_____", "sent_zh": "Climate change is a global problem." },
-            { "answer_en": "independent", "meaning_zh": "獨立的", "cloze_en": "i__________", "sent_zh": "She wanted to be financially independent." },
-            { "answer_en": "opportunity", "meaning_zh": "機會", "cloze_en": "o__________", "sent_zh": "Don't miss this great opportunity." },
-            { "answer_en": "patient", "meaning_zh": "有耐心的、病人", "cloze_en": "p______", "sent_zh": "You need to be patient when learning a language." },
-            { "answer_en": "quality", "meaning_zh": "品質", "cloze_en": "q______", "sent_zh": "We focus on the quality of our products." },
-            { "answer_en": "recognize", "meaning_zh": "認出、承認", "cloze_en": "r________", "sent_zh": "I didn't recognize her with her new hairstyle." },
-            { "answer_en": "success", "meaning_zh": "成功", "cloze_en": "s______", "sent_zh": "Practice is the key to success." },
-            { "answer_en": "traditional", "meaning_zh": "傳統的", "cloze_en": "t__________", "sent_zh": "They wore traditional clothes for the festival." }
+            { "answer_en": "promising", "meaning_zh": "有前途的、有希望的", "sent_en": "She is a promising young artist with a bright future.", "sent_zh": "她是一位前途無量、有著光明未來的年輕藝術家。" },
+            { "answer_en": "achieve", "meaning_zh": "達成、實現", "sent_en": "Hard work is necessary to achieve your goals.", "sent_zh": "努力工作是實現目標所必需的。" },
+            { "answer_en": "challenge", "meaning_zh": "挑戰", "sent_en": "The project is a great challenge for our team.", "sent_zh": "這個專案對我們的團隊來說是一大挑戰。" },
+            { "answer_en": "confident", "meaning_zh": "有信心的", "sent_en": "He is confident about passing the exam.", "sent_zh": "他對通過考試很有信心。" },
+            { "answer_en": "development", "meaning_zh": "發展、開發", "sent_en": "Technological development has changed our lives.", "sent_zh": "科技的發展已經改變了我們的工作與生活。" },
+            { "answer_en": "efficient", "meaning_zh": "有效率的", "sent_en": "This new machine is much more efficient.", "sent_zh": "這台新機器有效率得多。" },
+            { "answer_en": "feature", "meaning_zh": "特色、特徵", "sent_en": "A key feature of the new smartphone is its camera.", "sent_zh": "新款智慧型手機的一個核心特色是它的相機。" },
+            { "answer_en": "global", "meaning_zh": "全球的", "sent_en": "Climate change is a global problem.", "sent_zh": "氣候變遷是一個全球性的問題。" },
+            { "answer_en": "independent", "meaning_zh": "獨立的", "sent_en": "She wanted to be financially independent.", "sent_zh": "她想要在經濟上獨立。" },
+            { "answer_en": "opportunity", "meaning_zh": "機會", "sent_en": "Don't miss this great opportunity.", "sent_zh": "不要錯過這個絕佳的機會。" },
+            { "answer_en": "patient", "meaning_zh": "有耐心的、病人", "sent_en": "You need to be patient when learning a language.", "sent_zh": "學習語言時你需要有耐心。" },
+            { "answer_en": "quality", "meaning_zh": "品質", "sent_en": "We focus on the quality of our products.", "sent_zh": "我們專注於產品的品質。" },
+            { "answer_en": "recognize", "meaning_zh": "認出、承認", "sent_en": "I didn't recognize her with her new hairstyle.", "sent_zh": "她換了新髮型，我差點認不出她來。" },
+            { "answer_en": "success", "meaning_zh": "成功", "sent_en": "Practice is the key to success.", "sent_zh": "練習是成功的關鍵。" },
+            { "answer_en": "traditional", "meaning_zh": "傳統的", "sent_en": "They wore traditional clothes for the festival.", "sent_zh": "他們為節慶穿上了傳統服飾。" }
         ];
 
-        // 狀態變數
-        let currentMode = "1"; // "1": 手寫, "2": 中文選擇, "3": 英文選擇
+        let currentMode = "1";
         let currentRound = 1;
         let maxRounds = 3;
-        let questionsPerRound = 5; // 可依需求調整每回合題數
+        let questionsPerRound = 5;
         let curRoundIndices = [];
         let curIndexInRound = 0;
         let scoreThisRound = 0;
@@ -141,8 +164,9 @@
         let wrongbook = {};
         let isSubmitted = false;
         let selectedChoice = null;
+        let isWordRevealed = false;
+        let currentStudent = "";
 
-        // 輔助函式：Levenshtein 距離
         function levenshtein(a, b) {
             if (a.length < b.length) return levenshtein(b, a);
             if (b.length === 0) return a.length;
@@ -157,7 +181,6 @@
             return prev[prev.length - 1];
         }
 
-        // 簡易詞性推測
         function getPos(word) {
             let w = word.toLowerCase();
             if (w.endsWith("able") || w.endsWith("ible") || w.endsWith("al") || w.endsWith("ful") || w.endsWith("ic") || w.endsWith("ive") || w.endsWith("less") || w.endsWith("ous")) return "adj";
@@ -167,19 +190,15 @@
             return "other";
         }
 
-        // 智能干擾詞產生
         function getSmartDistractors(word, meaningZh, k = 3) {
             let cands = new Set();
-            // 1. 字形相似
             QUESTION_BANK.forEach(it => {
                 if (it.answer_en !== word && levenshtein(word, it.answer_en) <= 3) cands.add(it.answer_en);
             });
-            // 2. 詞性相同
             let pos = getPos(word);
             QUESTION_BANK.forEach(it => {
                 if (it.answer_en !== word && getPos(it.answer_en) === pos) cands.add(it.answer_en);
             });
-            // 3. 中文語義首字相同
             if (meaningZh) {
                 let head = meaningZh.slice(0, 1);
                 QUESTION_BANK.forEach(it => {
@@ -199,8 +218,14 @@
             return candsArr.slice(0, k);
         }
 
-        // 初始化與重設
         function initQuiz() {
+            let studentSelect = document.getElementById('student-select');
+            currentStudent = studentSelect.value;
+            if (!currentStudent) {
+                alert("請先下拉選擇您的姓名！");
+                return;
+            }
+
             currentRound = 1;
             records = [];
             wrongbook = {};
@@ -222,36 +247,58 @@
             loadQuestion();
         }
 
-        // 載入當前題目
+        function makeClozeWord(word) {
+            if (word.length <= 2) {
+                return "_".repeat(word.length);
+            }
+            let first = word[0];
+            let last = word[word.length - 1];
+            let middleUnderscores = "_".repeat(word.length - 2);
+            return first + middleUnderscores + last;
+        }
+
         function loadQuestion() {
             isSubmitted = false;
             selectedChoice = null;
+            isWordRevealed = false;
             let qidx = curRoundIndices[curIndexInRound];
             let q = QUESTION_BANK[qidx];
 
-            // 更新進度
-            document.getElementById('progress-round-text').innerText = `🎯 第 ${currentRound} 回合`;
+            document.getElementById('progress-round-text').innerText = `🎯 第 ${currentRound} 回合 (${currentStudent})`;
             let totalQ = curRoundIndices.length;
             let currentNum = curIndexInRound + 1;
             document.getElementById('progress-count-text').innerText = `進度：${currentNum} / ${totalQ}`;
             let pct = (currentNum / totalQ) * 100;
             document.getElementById('progress-bar').style.width = `${pct}%`;
 
-            // 顯示題目內容
-            if (currentMode === "3") {
-                document.getElementById('question-title').innerText = `Q${currentNum}. ${q.sent_zh}`;
-                document.getElementById('question-sub').innerText = "";
-            } else {
-                document.getElementById('question-title').innerText = `Q${currentNum}. ${q.cloze_en}`;
-                document.getElementById('question-sub').innerText = q.sent_zh ? `📘 ${q.sent_zh}` : "";
-            }
+            let parts = q.sent_en.split(new RegExp(`\\b${q.answer_en}\\b`, 'i'));
+            document.getElementById('question-prefix').innerText = `Q${currentNum}. ${parts[0] || ""}`;
+            document.getElementById('question-suffix').innerText = parts[1] || "";
 
-            // 清除回饋
+            let targetEl = document.getElementById('cloze-word-target');
+            targetEl.innerText = makeClozeWord(q.answer_en);
+            
+            targetEl.onclick = function() {
+                isWordRevealed = !isWordRevealed;
+                if (isWordRevealed) {
+                    targetEl.innerText = q.answer_en;
+                    targetEl.className = "cursor-pointer text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold transition inline-block my-1";
+                } else {
+                    targetEl.innerText = makeClozeWord(q.answer_en);
+                    targetEl.className = "cursor-pointer text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 hover:bg-indigo-100 transition inline-block my-1";
+                }
+            };
+
+            let subEl = document.getElementById('question-sub');
+            subEl.innerText = `📘 中文意思：${q.meaning_zh}｜例句翻譯：${q.sent_zh}`;
+            subEl.classList.add('hidden');
+            let hintBtn = document.getElementById('toggle-hint-btn');
+            hintBtn.innerText = "💡 顯示中文提示";
+
             let feedbackEl = document.getElementById('feedback-area');
             feedbackEl.classList.add('hidden');
             feedbackEl.innerHTML = "";
 
-            // 根據模式切換輸入介面
             let inputContainer = document.getElementById('input-mode-container');
             let choiceContainer = document.getElementById('choice-mode-container');
             let actionBtn = document.getElementById('action-btn');
@@ -260,13 +307,13 @@
             if (currentMode === "1") {
                 inputContainer.classList.remove('hidden');
                 choiceContainer.classList.add('hidden');
-                document.getElementById('user-answer-input').value = "";
-                document.getElementById('user-answer-input').focus();
+                let inputField = document.getElementById('user-answer-input');
+                inputField.value = "";
+                inputField.focus();
             } else {
                 inputContainer.classList.add('hidden');
                 choiceContainer.classList.remove('hidden');
                 
-                // 產生選項
                 let distractorsEn = getSmartDistractors(q.answer_en, q.meaning_zh, 3);
                 let options = [];
                 if (currentMode === "2") {
@@ -295,7 +342,22 @@
             }
         }
 
-        // 提交與動作處理
+        document.getElementById('back-to-setup-btn').onclick = function() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('setup-section').classList.remove('hidden');
+        };
+
+        document.getElementById('toggle-hint-btn').onclick = function() {
+            let subEl = document.getElementById('question-sub');
+            if (subEl.classList.contains('hidden')) {
+                subEl.classList.remove('hidden');
+                this.innerText = "隱藏中文提示";
+            } else {
+                subEl.classList.add('hidden');
+                this.innerText = "💡 顯示中文提示";
+            }
+        };
+
         document.getElementById('action-btn').onclick = function() {
             let qidx = curRoundIndices[curIndexInRound];
             let q = QUESTION_BANK[qidx];
@@ -328,7 +390,6 @@
                     scoreThisRound++;
                 } else {
                     feedbackEl.innerHTML = `<div class='text-rose-600 font-bold'>❌ 錯誤。正確答案：${q.answer_en} (${q.meaning_zh})</div>`;
-                    // 記錄錯題
                     if (!wrongbook[q.answer_en]) {
                         wrongbook[q.answer_en] = { ...q, count: 0, chosen: [] };
                     }
@@ -340,10 +401,8 @@
                 records.push({ round: currentRound, qidx, chosen: chosenLabel, correct: q.answer_en, isCorrect });
                 document.getElementById('action-btn').innerText = "下一題";
             } else {
-                // 進入下一題或下一回合
                 curIndexInRound++;
                 if (curIndexInRound >= curRoundIndices.length) {
-                    // 回合結束
                     if (scoreThisRound === curRoundIndices.length && currentRound < maxRounds) {
                         currentRound++;
                         startNewRound();
@@ -356,7 +415,6 @@
             }
         };
 
-        // 顯示結算畫面
         function showResult() {
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('result-section').classList.remove('hidden');
@@ -365,12 +423,12 @@
             let correct = records.filter(r => r.isCorrect).length;
             let acc = total > 0 ? (correct / total * 100).toFixed(1) : 0;
 
+            document.getElementById('res-student').innerText = currentStudent;
             document.getElementById('res-total').innerText = total;
             document.getElementById('res-correct').innerText = correct;
             document.getElementById('res-acc').innerText = `${acc}%`;
         }
 
-        // 渲染錯題集
         function renderWrongbook() {
             let container = document.getElementById('wrongbook-list');
             let keys = Object.keys(wrongbook);
@@ -391,14 +449,13 @@
                         <span>${w.answer_en} (${w.meaning_zh})</span>
                         <span class="text-rose-500">錯 ${w.count} 次</span>
                     </div>
-                    <div class="text-slate-500">題目：${w.cloze_en}</div>
+                    <div class="text-slate-500">例句：${w.sent_en}</div>
                     <div class="text-slate-400">你的回答：${w.chosen.join(', ')}</div>
                 `;
                 container.appendChild(div);
             });
         }
 
-        // 模式按鈕切換事件
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.onclick = function() {
                 document.querySelectorAll('.mode-btn').forEach(b => {
@@ -409,7 +466,6 @@
             };
         });
 
-        // 開始 / 重新開始按鈕
         document.getElementById('start-btn').onclick = initQuiz;
         document.getElementById('restart-btn').onclick = function() {
             document.getElementById('setup-section').classList.remove('hidden');
