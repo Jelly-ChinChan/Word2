@@ -10,13 +10,13 @@
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
 
     <div class="max-w-xl mx-auto px-4 py-8 w-full">
-        <!-- 標題與回首頁按鈕 -->
-        <header class="flex justify-between items-center mb-6 relative">
-            <div>
+        <!-- 標題區：主副標題置中，返回按鈕絕對定位在右側 -->
+        <header class="relative flex justify-center items-center mb-6">
+            <div class="text-center">
                 <h1 class="text-2xl font-bold text-indigo-600">📝 高二適性單字測驗</h1>
                 <p class="text-sm text-slate-500 mt-1">115級真理之門專題生</p>
             </div>
-            <button id="back-to-setup-btn" type="button" class="hidden text-xs bg-white hover:bg-slate-100 text-indigo-600 border border-indigo-200 px-3 py-1.5 rounded-lg transition font-medium shadow-2xs">
+            <button id="back-to-setup-btn" type="button" class="hidden absolute right-0 text-xs bg-white hover:bg-slate-100 text-indigo-600 border border-indigo-200 px-3 py-1.5 rounded-lg transition font-medium shadow-2xs">
                 ⚙️ 回首頁 / 更換模式
             </button>
         </header>
@@ -322,16 +322,14 @@
                 let optionsData = [];
                 
                 if (currentMode === "2") {
-                    // 模式二：選項顯示中文 (附英文)
-                    optionsData.push({ text: `${q.meaning_zh} (${q.answer_en})`, rawEn: q.answer_en, isCorrect: true });
+                    optionsData.push({ text: q.meaning_zh, subText: ` (${q.answer_en})`, rawEn: q.answer_en, isCorrect: true });
                     distractorsEn.forEach(en => {
                         let found = QUESTION_BANK.find(item => item.answer_en === en);
                         if (found) {
-                            optionsData.push({ text: `${found.meaning_zh} (${found.answer_en})`, rawEn: found.answer_en, isCorrect: false });
+                            optionsData.push({ text: found.meaning_zh, subText: ` (${found.answer_en})`, rawEn: found.answer_en, isCorrect: false });
                         }
                     });
                 } else {
-                    // 模式三：選項顯示英文，並在公布答案時同時顯示對應的中文意思
                     optionsData.push({ text: q.answer_en, subText: ` (${q.meaning_zh})`, rawEn: q.answer_en, isCorrect: true });
                     distractorsEn.forEach(en => {
                         let found = QUESTION_BANK.find(item => item.answer_en === en);
@@ -348,7 +346,6 @@
                     btn.className = "choice-option w-full text-left p-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition font-medium text-slate-700";
                     btn.innerText = opt.text;
                     
-                    // 點擊即答
                     btn.onclick = function() {
                         if (isSubmitted) return;
                         isSubmitted = true;
@@ -356,16 +353,11 @@
                         let isCorrect = opt.isCorrect;
                         let chosenLabel = opt.rawEn;
 
-                        // 鎖定所有選項按鈕，並標示正確與錯誤，同時模式三會補上中文意思
                         let allBtns = choiceContainer.querySelectorAll('.choice-option');
                         allBtns.forEach((b, idx) => {
                             b.disabled = true;
                             let correspondingOpt = optionsData[idx];
-
-                            // 如果是模式三，結算時在按鈕上補上中文意思
-                            if (currentMode === "3") {
-                                b.innerText = correspondingOpt.text + correspondingOpt.subText;
-                            }
+                            b.innerText = correspondingOpt.text + correspondingOpt.subText;
 
                             if (correspondingOpt.isCorrect) {
                                 b.className = "choice-option w-full text-left p-3 border border-emerald-500 bg-emerald-50 text-emerald-700 font-bold rounded-xl transition";
