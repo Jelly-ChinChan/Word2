@@ -10,17 +10,16 @@
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
 
     <div class="max-w-xl mx-auto px-4 py-8 w-full relative">
-        <!-- 右上角狹長方形返回按鈕 -->
-        <div class="flex justify-end mb-2">
-            <button id="back-to-setup-btn" type="button" class="hidden text-xs bg-white hover:bg-slate-100 text-indigo-600 border border-indigo-200 px-3 py-1.5 rounded-lg transition font-medium shadow-2xs">
-                ⚙️ 回首頁 / 更換模式
+        <!-- 頂部區塊：結合標題與直向狹長按鈕（直長橫短、置右） -->
+        <header class="relative flex justify-center items-center mb-6 pt-2">
+            <div class="text-center">
+                <h1 class="text-2xl font-bold text-indigo-600">📝 高二適性單字測驗</h1>
+                <p class="text-sm text-slate-500 mt-1">115級真理之門專題生</p>
+            </div>
+            <!-- 直向狹長按鈕（直長橫短：py-3 py空間大，px-2 左右窄），絕對定位在右側不擋標題 -->
+            <button id="back-to-setup-btn" type="button" class="hidden absolute right-0 top-1 text-xs bg-white hover:bg-slate-100 text-indigo-600 border border-indigo-200 px-2 py-3 rounded-lg transition font-medium shadow-2xs leading-tight text-center">
+                回<br>首<br>頁
             </button>
-        </div>
-
-        <!-- 置中標題區 -->
-        <header class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-indigo-600">📝 高二適性單字測驗</h1>
-            <p class="text-sm text-slate-500 mt-1">115級真理之門專題生</p>
         </header>
 
         <!-- 使用者資訊與模式設定區 -->
