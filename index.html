@@ -251,7 +251,7 @@
             { "answer_en": "stunning", "meaning_zh": "感動人心的", "sent_en": "She looked stunning in her new dress.", "sent_zh": "她穿著新洋裝看起來驚豔動人。" },
             { "answer_en": "stun", "meaning_zh": "使…驚訝", "sent_en": "The sudden news began to stun everyone.", "sent_zh": "突如其來的消息讓每個人都大吃一驚。" },
             { "answer_en": "superior", "meaning_zh": "優於…；上司", "sent_en": "This material is superior in quality.", "sent_zh": "這種材料在品質上更為優越。" },
-            { "answer_en": "superiority", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "她對其他人有一種優越感。" },
+            { "answer_en": "superiority", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "他對其他人有一種優越感。" },
             { "answer_en": "transform", "meaning_zh": "使改變型態", "sent_en": "Technology continues to transform our lives.", "sent_zh": "科技持續改變著我們的生活型態。" },
             { "answer_en": "transformation", "meaning_zh": "轉變", "sent_en": "The city has undergone a massive transformation.", "sent_zh": "這座城市經歷了巨大的轉變。" },
             { "answer_en": "tumble", "meaning_zh": "滾落；倒塌；暴跌", "sent_en": "He tripped and took a tumble down the stairs.", "sent_zh": "他絆倒並從樓梯上滾了下來。" },
@@ -259,14 +259,14 @@
         ];
 
         let currentMode = "1";
-        let globalQuestionIndex = 0; // 記錄全域答題進度 (0到72)
+        let globalQuestionIndex = 0;
         let scoreInCurrentRound = 0;
         let records = [];
         let wrongbook = {};
         let isSubmitted = false;
         let isWordRevealed = false;
         let currentStudent = "";
-        let shuffledBank = []; // 隨機洗牌後的完整題庫順序
+        let shuffledBank = [];
 
         function levenshtein(a, b) {
             if (a.length < b.length) return levenshtein(b, a);
@@ -327,7 +327,6 @@
                 return;
             }
 
-            // 隨機洗牌整副題庫，確保後續題目不重複
             shuffledBank = [...QUESTION_BANK];
             shuffledBank.sort(() => Math.random() - 0.5);
 
@@ -362,7 +361,6 @@
             return first + middleUnderscores + last;
         }
 
-        // 套用第31題以上的大魔王隨機風格
         function applyBossTheme(currentQNum) {
             let body = document.getElementById('page-body');
             let quizCard = document.getElementById('quiz-section');
@@ -370,7 +368,6 @@
             let mainTitle = document.getElementById('main-title');
 
             if (currentQNum >= 31) {
-                // 隨機挑選 3 種魔王風格之一
                 let themes = [
                     { bg: "bg-zinc-900", card: "bg-zinc-800 text-zinc-100 border-red-900 shadow-red-900/50 shadow-lg", prog: "bg-zinc-700 text-zinc-200", title: "text-red-500 boss-animate" },
                     { bg: "bg-purple-950", card: "bg-purple-900/90 text-purple-100 border-purple-500 shadow-purple-500/50 shadow-lg", prog: "bg-purple-900 text-purple-200", title: "text-amber-400 boss-animate" },
@@ -379,20 +376,18 @@
                 let chosenTheme = themes[Math.floor(Math.random() * themes.length)];
 
                 body.className = `${chosenTheme.bg} text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-500`;
-                quizCard.className = `hidden p-6 rounded-2xl border mb-6 transition-all duration-300 ${chosenTheme.card}`;
+                quizCard.className = `p-6 rounded-2xl border mb-6 transition-all duration-300 ${chosenTheme.card}`;
                 progressCard.className = `p-3 rounded-xl mb-6 transition-colors ${chosenTheme.prog}`;
                 mainTitle.className = `text-2xl font-bold ${chosenTheme.title}`;
             } else {
-                // 一般關卡預設樣式
                 body.className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
-                quizCard.className = "hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6";
+                quizCard.className = "bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6";
                 progressCard.className = "bg-slate-100 p-3 rounded-xl mb-6 transition-colors";
                 mainTitle.className = "text-2xl font-bold text-indigo-600";
             }
         }
 
         function loadQuestion() {
-            // 如果超過題庫總數，直接顯示破關畫面
             if (globalQuestionIndex >= shuffledBank.length) {
                 triggerVictory();
                 return;
@@ -403,7 +398,6 @@
             let currentQNum = globalQuestionIndex + 1;
             let q = shuffledBank[globalQuestionIndex];
 
-            // 套用魔王關卡變色風格
             applyBossTheme(currentQNum);
 
             let roundNum = Math.floor(globalQuestionIndex / 5) + 1;
@@ -569,12 +563,10 @@
             document.getElementById('next-btn').classList.remove('hidden');
         };
 
-        // 點擊下一題或結算判斷
         document.getElementById('next-btn').onclick = function() {
             globalQuestionIndex++;
             let inRoundPos = globalQuestionIndex % 5;
 
-            // 每 5 題為一個回合結束點
             if (inRoundPos === 0) {
                 showRoundResult();
             } else {
@@ -582,7 +574,6 @@
             }
         };
 
-        // 每5題結束後的結算判斷（全對自動晉級，沒全對可選擇繼續挑戰剩餘不重複題目）
         function showRoundResult() {
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('result-section').classList.remove('hidden');
@@ -601,7 +592,6 @@
             let resultTitle = document.getElementById('result-title');
 
             if (scoreInCurrentRound === 5) {
-                // 5題全對，自動觸發或顯示繼續挑戰下一個5題
                 resultTitle.innerHTML = "🎉 本關 5 題全部答對！太神啦！";
                 if (globalQuestionIndex < shuffledBank.length) {
                     continueContainer.classList.remove('hidden');
@@ -609,19 +599,16 @@
                     triggerVictory();
                 }
             } else {
-                // 沒有全對，顯示結算，但也允許繼續挑戰剩餘不重複題目
                 resultTitle.innerHTML = "📊 本關結算（未全對）";
                 continueContainer.classList.remove('hidden');
             }
         }
 
-        // 點擊繼續挑戰按鈕
         document.getElementById('continue-btn').onclick = function() {
             document.getElementById('result-section').classList.add('hidden');
             startNewRound();
         };
 
-        // 觸發恭喜破關特效
         function triggerVictory() {
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('result-section').classList.add('hidden');
@@ -632,7 +619,6 @@
         document.getElementById('victory-close-btn').onclick = function() {
             document.getElementById('victory-overlay').classList.add('hidden');
             document.getElementById('setup-section').classList.remove('hidden');
-            // 回復預設樣式
             document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
         };
 
