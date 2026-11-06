@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloze Test U46 測驗系統</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <div class="max-w-xl mx-auto px-4 py-8 w-full">
+        <!-- 標題 -->
+        <header class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-indigo-600">📝 Cloze Test U46 智能單字測驗</h1>
+            <p class="text-sm text-slate-500 mt-1">無伺服器端依賴，GitHub Pages 即開即玩</p>
+        </header>
+
+        <!-- 使用者資訊與模式設定區 -->
+        <section id="setup-section" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
+            <h2 class="text-lg font-semibold mb-3 text-slate-700">👤 使用者資料與模式</h2>
+            <div class="grid grid-cols-3 gap-3 mb-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-500 mb-1">姓名</label>
+                    <input type="text" id="user-name" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="您的姓名">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-500 mb-1">班級</label>
+                    <input type="text" id="user-class" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="班級">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-500 mb-1">座號</label>
+                    <input type="text" id="user-seat" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="座號">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-medium text-slate-500 mb-1">選擇測驗模式</label>
+                <div class="grid grid-cols-3 gap-2" id="mode-selector">
+                    <button type="button" data-mode="1" class="mode-btn py-2 px-3 text-xs font-medium rounded-lg border border-indigo-600 bg-indigo-600 text-white transition">模式一<br>【手寫輸入】</button>
+                    <button type="button" data-mode="2" class="mode-btn py-2 px-3 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">模式二<br>【中文選擇】</button>
+                    <button type="button" data-mode="3" class="mode-btn py-2 px-3 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">模式三<br>【英文選擇】</button>
+                </div>
+            </div>
+            <button id="start-btn" class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl transition shadow-sm">開始測驗 / 重新開始</button>
+        </section>
+
+        <!-- 答題主畫面 -->
+        <main id="quiz-section" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
+            <!-- 進度卡片 -->
+            <div class="bg-slate-100 p-3 rounded-xl mb-6">
+                <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                    <span id="progress-round-text">🎯 第 1 回合</span>
+                    <span id="progress-count-text">進度：1 / 10</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 10%"></div>
+                </div>
+            </div>
+
+            <!-- 題目顯示區 -->
+            <div class="mb-6">
+                <div id="question-title" class="text-xl font-bold text-slate-800 mb-2"></div>
+                <div id="question-sub" class="text-sm text-slate-500 mb-4"></div>
+
+                <!-- 模式一：手寫輸入 -->
+                <div id="input-mode-container" class="space-y-3">
+                    <input type="text" id="user-answer-input" autocomplete="off" placeholder="請輸入英文單字..." class="w-full border border-slate-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <!-- 模式二與三：選項選擇 -->
+                <div id="choice-mode-container" class="space-y-2 hidden">
+                    <!-- 動態產生選項按鈕 -->
+                </div>
+
+                <!-- 回饋訊息 -->
+                <div id="feedback-area" class="mt-4 text-sm font-semibold hidden"></div>
+            </div>
+
+            <button id="action-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition shadow-sm">送出答案</button>
+        </main>
+
+        <!-- 結算畫面 -->
+        <section id="result-section" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center mb-6">
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">🎉 測驗結算</h2>
+            <div class="space-y-2 my-6 text-slate-600">
+                <p class="text-lg">總答題數：<span id="res-total" class="font-bold text-slate-800">0</span></p>
+                <p class="text-lg">正確題數：<span id="res-correct" class="font-bold text-emerald-600">0</span></p>
+                <p class="text-xl font-semibold">正確率：<span id="res-acc" class="text-indigo-600">0.0%</span></p>
+            </div>
+            <button id="restart-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition shadow-sm">再玩一次</button>
+        </section>
+
+        <!-- 錯題集專區 -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h3 class="font-semibold text-slate-700 mb-3 flex items-center justify-between">
+                <span>📘 本次錯題集 (Wrong-book)</span>
+                <span id="wrong-count-badge" class="text-xs bg-rose-100 text-rose-600 px-2 py-0.5 rounded-full">0 題</span>
+            </h3>
+            <div id="wrongbook-list" class="space-y-2 text-sm text-slate-500">
+                <p class="text-slate-400 italic text-xs">目前沒有錯題記錄。</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- 頁尾 -->
+    <footer class="text-center py-4 text-xs text-slate-400">
+        Cloze Test App &copy; 2026 - Powered by Static HTML & Tailwind
+    </footer>
+
+    <!-- 內嵌題庫與前端邏輯 -->
+    <script>
+        // U46 題庫資料（內嵌以支援 GitHub Pages 靜態載入）
+        const QUESTION_BANK = [
+            { "answer_en": "promising", "meaning_zh": "有前途的、有希望的", "cloze_en": "p________", "sent_zh": "She is a promising young artist with a bright future." },
+            { "answer_en": "achieve", "meaning_zh": "達成、實現", "cloze_en": "a______", "sent_zh": "Hard work is necessary to achieve your goals." },
+            { "answer_en": "challenge", "meaning_zh": "挑戰", "cloze_en": "c________", "sent_zh": "The project is a great challenge for our team." },
+            { "answer_en": "confident", "meaning_zh": "有信心的", "cloze_en": "c________", "sent_zh": "He is confident about passing the exam." },
+            { "answer_en": "development", "meaning_zh": "發展、開發", "cloze_en": "d__________", "sent_zh": "Technological development has changed our lives." },
+            { "answer_en": "efficient", "meaning_zh": "有效率的", "cloze_en": "e________", "sent_zh": "This new machine is much more efficient." },
+            { "answer_en": "feature", "meaning_zh": "特色、特徵", "cloze_en": "f______", "sent_zh": "A key feature of the new smartphone is its camera." },
+            { "answer_en": "global", "meaning_zh": "全球的", "cloze_en": "g_____", "sent_zh": "Climate change is a global problem." },
+            { "answer_en": "independent", "meaning_zh": "獨立的", "cloze_en": "i__________", "sent_zh": "She wanted to be financially independent." },
+            { "answer_en": "opportunity", "meaning_zh": "機會", "cloze_en": "o__________", "sent_zh": "Don't miss this great opportunity." },
+            { "answer_en": "patient", "meaning_zh": "有耐心的、病人", "cloze_en": "p______", "sent_zh": "You need to be patient when learning a language." },
+            { "answer_en": "quality", "meaning_zh": "品質", "cloze_en": "q______", "sent_zh": "We focus on the quality of our products." },
+            { "answer_en": "recognize", "meaning_zh": "認出、承認", "cloze_en": "r________", "sent_zh": "I didn't recognize her with her new hairstyle." },
+            { "answer_en": "success", "meaning_zh": "成功", "cloze_en": "s______", "sent_zh": "Practice is the key to success." },
+            { "answer_en": "traditional", "meaning_zh": "傳統的", "cloze_en": "t__________", "sent_zh": "They wore traditional clothes for the festival." }
+        ];
+
+        // 狀態變數
+        let currentMode = "1"; // "1": 手寫, "2": 中文選擇, "3": 英文選擇
+        let currentRound = 1;
+        let maxRounds = 3;
+        let questionsPerRound = 5; // 可依需求調整每回合題數
+        let curRoundIndices = [];
+        let curIndexInRound = 0;
+        let scoreThisRound = 0;
+        let records = [];
+        let wrongbook = {};
+        let isSubmitted = false;
+        let selectedChoice = null;
+
+        // 輔助函式：Levenshtein 距離
+        function levenshtein(a, b) {
+            if (a.length < b.length) return levenshtein(b, a);
+            if (b.length === 0) return a.length;
+            let prev = Array.from({length: b.length + 1}, (_, i) => i);
+            for (let i = 0; i < a.length; i++) {
+                let curr = [i + 1];
+                for (let j = 0; j < b.length; j++) {
+                    curr.push(Math.min(prev[j + 1] + 1, curr[j] + 1, prev[j] + (a[i] !== b[j])));
+                }
+                prev = curr;
+            }
+            return prev[prev.length - 1];
+        }
+
+        // 簡易詞性推測
+        function getPos(word) {
+            let w = word.toLowerCase();
+            if (w.endsWith("able") || w.endsWith("ible") || w.endsWith("al") || w.endsWith("ful") || w.endsWith("ic") || w.endsWith("ive") || w.endsWith("less") || w.endsWith("ous")) return "adj";
+            if (w.endsWith("ly")) return "adv";
+            if (w.endsWith("ate") || w.endsWith("en") || w.endsWith("ify") || w.endsWith("ise") || w.endsWith("ize") || w.endsWith("ed") || w.endsWith("ing")) return "verb";
+            if (w.endsWith("tion") || w.endsWith("sion") || w.endsWith("ment") || w.endsWith("ness") || w.endsWith("ity") || w.endsWith("er") || w.endsWith("or") || w.endsWith("ism") || w.endsWith("ist") || w.endsWith("ship") || w.endsWith("s")) return "noun";
+            return "other";
+        }
+
+        // 智能干擾詞產生
+        function getSmartDistractors(word, meaningZh, k = 3) {
+            let cands = new Set();
+            // 1. 字形相似
+            QUESTION_BANK.forEach(it => {
+                if (it.answer_en !== word && levenshtein(word, it.answer_en) <= 3) cands.add(it.answer_en);
+            });
+            // 2. 詞性相同
+            let pos = getPos(word);
+            QUESTION_BANK.forEach(it => {
+                if (it.answer_en !== word && getPos(it.answer_en) === pos) cands.add(it.answer_en);
+            });
+            // 3. 中文語義首字相同
+            if (meaningZh) {
+                let head = meaningZh.slice(0, 1);
+                QUESTION_BANK.forEach(it => {
+                    if (it.answer_en !== word && it.meaning_zh.startsWith(head)) cands.add(it.answer_en);
+                });
+            }
+
+            let candsArr = Array.from(cands);
+            if (candsArr.length < k) {
+                let pool = QUESTION_BANK.filter(it => it.answer_en !== word).map(it => it.answer_en);
+                pool.sort(() => Math.random() - 0.5);
+                for (let p of pool) {
+                    if (!candsArr.includes(p) && candsArr.length < k) candsArr.push(p);
+                }
+            }
+            candsArr.sort(() => Math.random() - 0.5);
+            return candsArr.slice(0, k);
+        }
+
+        // 初始化與重設
+        function initQuiz() {
+            currentRound = 1;
+            records = [];
+            wrongbook = {};
+            startNewRound();
+        }
+
+        function startNewRound() {
+            let indices = Array.from({length: QUESTION_BANK.length}, (_, i) => i);
+            indices.sort(() => Math.random() - 0.5);
+            curRoundIndices = indices.slice(0, Math.min(questionsPerRound, QUESTION_BANK.length));
+            curIndexInRound = 0;
+            scoreThisRound = 0;
+            isSubmitted = false;
+            
+            document.getElementById('setup-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            
+            loadQuestion();
+        }
+
+        // 載入當前題目
+        function loadQuestion() {
+            isSubmitted = false;
+            selectedChoice = null;
+            let qidx = curRoundIndices[curIndexInRound];
+            let q = QUESTION_BANK[qidx];
+
+            // 更新進度
+            document.getElementById('progress-round-text').innerText = `🎯 第 ${currentRound} 回合`;
+            let totalQ = curRoundIndices.length;
+            let currentNum = curIndexInRound + 1;
+            document.getElementById('progress-count-text').innerText = `進度：${currentNum} / ${totalQ}`;
+            let pct = (currentNum / totalQ) * 100;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+
+            // 顯示題目內容
+            if (currentMode === "3") {
+                document.getElementById('question-title').innerText = `Q${currentNum}. ${q.sent_zh}`;
+                document.getElementById('question-sub').innerText = "";
+            } else {
+                document.getElementById('question-title').innerText = `Q${currentNum}. ${q.cloze_en}`;
+                document.getElementById('question-sub').innerText = q.sent_zh ? `📘 ${q.sent_zh}` : "";
+            }
+
+            // 清除回饋
+            let feedbackEl = document.getElementById('feedback-area');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.innerHTML = "";
+
+            // 根據模式切換輸入介面
+            let inputContainer = document.getElementById('input-mode-container');
+            let choiceContainer = document.getElementById('choice-mode-container');
+            let actionBtn = document.getElementById('action-btn');
+            actionBtn.innerText = "送出答案";
+
+            if (currentMode === "1") {
+                inputContainer.classList.remove('hidden');
+                choiceContainer.classList.add('hidden');
+                document.getElementById('user-answer-input').value = "";
+                document.getElementById('user-answer-input').focus();
+            } else {
+                inputContainer.classList.add('hidden');
+                choiceContainer.classList.remove('hidden');
+                
+                // 產生選項
+                let distractorsEn = getSmartDistractors(q.answer_en, q.meaning_zh, 3);
+                let options = [];
+                if (currentMode === "2") {
+                    options = [q.meaning_zh, ...distractorsEn.map(en => {
+                        let found = QUESTION_BANK.find(item => item.answer_en === en);
+                        return found ? found.meaning_zh : "";
+                    })];
+                } else {
+                    options = [q.answer_en, ...distractorsEn];
+                }
+                options.sort(() => Math.random() - 0.5);
+
+                choiceContainer.innerHTML = "";
+                options.forEach(opt => {
+                    let btn = document.createElement('button');
+                    btn.type = "button";
+                    btn.className = "choice-option w-full text-left p-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition font-medium text-slate-700";
+                    btn.innerText = opt;
+                    btn.onclick = () => {
+                        document.querySelectorAll('.choice-option').forEach(b => b.classList.remove('border-indigo-600', 'bg-indigo-50', 'text-indigo-700'));
+                        btn.classList.add('border-indigo-600', 'bg-indigo-50', 'text-indigo-700');
+                        selectedChoice = opt;
+                    };
+                    choiceContainer.appendChild(btn);
+                });
+            }
+        }
+
+        // 提交與動作處理
+        document.getElementById('action-btn').onclick = function() {
+            let qidx = curRoundIndices[curIndexInRound];
+            let q = QUESTION_BANK[qidx];
+            let isCorrect = false;
+            let chosenLabel = "";
+
+            if (!isSubmitted) {
+                if (currentMode === "1") {
+                    chosenLabel = document.getElementById('user-answer-input').value.trim();
+                    isCorrect = chosenLabel.toLowerCase() === q.answer_en.toLowerCase();
+                } else {
+                    if (!selectedChoice) {
+                        alert("請先選擇一個選項！");
+                        return;
+                    }
+                    chosenLabel = selectedChoice;
+                    if (currentMode === "2") {
+                        isCorrect = chosenLabel === q.meaning_zh;
+                    } else {
+                        isCorrect = chosenLabel.toLowerCase() === q.answer_en.toLowerCase();
+                    }
+                }
+
+                isSubmitted = true;
+                let feedbackEl = document.getElementById('feedback-area');
+                feedbackEl.classList.remove('hidden');
+
+                if (isCorrect) {
+                    feedbackEl.innerHTML = "<div class='text-emerald-600 font-bold'>✅ 回答正確！</div>";
+                    scoreThisRound++;
+                } else {
+                    feedbackEl.innerHTML = `<div class='text-rose-600 font-bold'>❌ 錯誤。正確答案：${q.answer_en} (${q.meaning_zh})</div>`;
+                    // 記錄錯題
+                    if (!wrongbook[q.answer_en]) {
+                        wrongbook[q.answer_en] = { ...q, count: 0, chosen: [] };
+                    }
+                    wrongbook[q.answer_en].count++;
+                    wrongbook[q.answer_en].chosen.push(chosenLabel);
+                    renderWrongbook();
+                }
+
+                records.push({ round: currentRound, qidx, chosen: chosenLabel, correct: q.answer_en, isCorrect });
+                document.getElementById('action-btn').innerText = "下一題";
+            } else {
+                // 進入下一題或下一回合
+                curIndexInRound++;
+                if (curIndexInRound >= curRoundIndices.length) {
+                    // 回合結束
+                    if (scoreThisRound === curRoundIndices.length && currentRound < maxRounds) {
+                        currentRound++;
+                        startNewRound();
+                    } else {
+                        showResult();
+                    }
+                } else {
+                    loadQuestion();
+                }
+            }
+        };
+
+        // 顯示結算畫面
+        function showResult() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+
+            let total = records.length;
+            let correct = records.filter(r => r.isCorrect).length;
+            let acc = total > 0 ? (correct / total * 100).toFixed(1) : 0;
+
+            document.getElementById('res-total').innerText = total;
+            document.getElementById('res-correct').innerText = correct;
+            document.getElementById('res-acc').innerText = `${acc}%`;
+        }
+
+        // 渲染錯題集
+        function renderWrongbook() {
+            let container = document.getElementById('wrongbook-list');
+            let keys = Object.keys(wrongbook);
+            document.getElementById('wrong-count-badge').innerText = `${keys.length} 題`;
+
+            if (keys.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 italic text-xs">目前沒有錯題記錄。</p>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            keys.forEach(key => {
+                let w = wrongbook[key];
+                let div = document.createElement('div');
+                div.className = "p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs space-y-1";
+                div.innerHTML = `
+                    <div class="font-bold text-slate-700 flex justify-between">
+                        <span>${w.answer_en} (${w.meaning_zh})</span>
+                        <span class="text-rose-500">錯 ${w.count} 次</span>
+                    </div>
+                    <div class="text-slate-500">題目：${w.cloze_en}</div>
+                    <div class="text-slate-400">你的回答：${w.chosen.join(', ')}</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // 模式按鈕切換事件
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.onclick = function() {
+                document.querySelectorAll('.mode-btn').forEach(b => {
+                    b.className = "mode-btn py-2 px-3 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition";
+                });
+                this.className = "mode-btn py-2 px-3 text-xs font-medium rounded-lg border border-indigo-600 bg-indigo-600 text-white transition";
+                currentMode = this.getAttribute('data-mode');
+            };
+        });
+
+        // 開始 / 重新開始按鈕
+        document.getElementById('start-btn').onclick = initQuiz;
+        document.getElementById('restart-btn').onclick = function() {
+            document.getElementById('setup-section').classList.remove('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+        };
+    </script>
+</body>
+</html>
