@@ -6,18 +6,25 @@
     <title>高二適性單字測驗 (L4-L6)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .boss-animate {
+            animation: pulse-fast 1s infinite;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+<body id="page-body" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500">
 
     <div class="max-w-xl mx-auto px-4 py-8 w-full relative">
-        <!-- 頂部區塊：結合標題與直向狹長按鈕（直長橫短、置右） -->
-        <header class="relative flex justify-center items-center mb-6 pt-2">
+        <!-- 頂部區塊：結合標題與直向狹長按鈕 -->
+        <header id="main-header" class="relative flex justify-center items-center mb-6 pt-2">
             <div class="text-center">
-                <!-- (L4-L6) 移到大標題後面 -->
-                <h1 class="text-2xl font-bold text-indigo-600">📝 高二適性單字測驗 (L4-L6)</h1>
+                <h1 id="main-title" class="text-2xl font-bold text-indigo-600">📝 高二適性單字測驗 (L4-L6)</h1>
                 <p class="text-sm text-slate-500 mt-1">115級真理之門專題生</p>
             </div>
-            <!-- 直向狹長按鈕，絕對定位在右側不擋標題 -->
             <button id="back-to-setup-btn" type="button" class="hidden absolute right-0 top-1 text-xs bg-white hover:bg-slate-100 text-indigo-600 border border-indigo-200 px-2 py-3 rounded-lg transition font-medium shadow-2xs leading-tight text-center">
                 回<br>首<br>頁
             </button>
@@ -27,7 +34,6 @@
         <section id="setup-section" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
             <h2 class="text-lg font-semibold mb-3 text-slate-700">👤 選擇學生與測驗模式</h2>
             
-            <!-- 學生姓名下拉式選單 -->
             <div class="mb-4">
                 <label class="block text-xs font-medium text-slate-500 mb-1">請選擇您的姓名</label>
                 <select id="student-select" class="w-full border border-slate-200 bg-white rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-700">
@@ -66,10 +72,9 @@
 
         <!-- 答題主畫面 -->
         <main id="quiz-section" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
-            <!-- 進度卡片 -->
-            <div class="bg-slate-100 p-3 rounded-xl mb-6">
+            <div id="progress-card" class="bg-slate-100 p-3 rounded-xl mb-6 transition-colors">
                 <div class="flex justify-between items-center mb-2">
-                    <span id="progress-round-text" class="text-xs font-semibold text-slate-600">🎯 第 1 回合</span>
+                    <span id="progress-round-text" class="text-xs font-semibold text-slate-600">🎯 第 1 關 (總第 1 題)</span>
                     <span id="progress-count-text" class="text-xs font-semibold text-slate-600">進度：1 / 5</span>
                 </div>
                 <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
@@ -77,13 +82,11 @@
                 </div>
             </div>
 
-            <!-- 題目顯示區 -->
             <div class="mb-6">
                 <div class="text-lg font-bold text-slate-800 mb-3 leading-relaxed">
                     <span id="question-prefix">Q1. </span><span id="cloze-word-target" class="cursor-pointer text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 hover:bg-indigo-100 transition inline-block my-1" title="點擊顯示/隱藏完整單字">r_______e</span><span id="question-suffix"> with her new hairstyle.</span>
                 </div>
                 
-                <!-- 中文提示按鈕與展開區塊 -->
                 <div class="mb-4">
                     <button id="toggle-hint-btn" type="button" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg transition font-medium inline-flex items-center gap-1">
                         💡 顯示中文提示
@@ -91,36 +94,40 @@
                     <div id="question-sub" class="text-sm text-slate-500 mt-2 hidden bg-slate-50 p-3 rounded-xl border border-slate-100"></div>
                 </div>
 
-                <!-- 模式一：手寫輸入 -->
                 <div id="input-mode-container" class="space-y-3">
                     <input type="text" id="user-answer-input" autocomplete="off" placeholder="請輸入英文單字..." class="w-full border border-slate-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <button id="submit-input-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition shadow-sm">送出答案</button>
                 </div>
 
-                <!-- 模式二與三：選項選擇（點擊即答） -->
-                <div id="choice-mode-container" class="space-y-2 hidden">
-                    <!-- 動態產生選項按鈕 -->
-                </div>
+                <div id="choice-mode-container" class="space-y-2 hidden"></div>
 
-                <!-- 回饋訊息 -->
                 <div id="feedback-area" class="mt-4 text-sm font-semibold hidden"></div>
             </div>
 
-            <!-- 下一題按鈕 -->
             <button id="next-btn" class="hidden w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition shadow-sm">下一題</button>
         </main>
 
         <!-- 結算畫面 -->
         <section id="result-section" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center mb-6">
-            <h2 class="text-2xl font-bold text-slate-800 mb-2">🎉 測驗結算</h2>
+            <h2 id="result-title" class="text-2xl font-bold text-slate-800 mb-2">🎉 測驗結算</h2>
             <div class="space-y-2 my-6 text-slate-600">
                 <p class="text-lg">學生姓名：<span id="res-student" class="font-bold text-indigo-600">-</span></p>
                 <p class="text-lg">總答題數：<span id="res-total" class="font-bold text-slate-800">0</span></p>
                 <p class="text-lg">正確題數：<span id="res-correct" class="font-bold text-emerald-600">0</span></p>
                 <p class="text-xl font-semibold">正確率：<span id="res-acc" class="text-indigo-600">0.0%</span></p>
             </div>
-            <button id="restart-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition shadow-sm">再玩一次</button>
+            <div id="continue-container" class="mb-3 hidden">
+                <button id="continue-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl transition shadow-sm mb-2">繼續挑戰下一關（不重複已考過題目）</button>
+            </div>
+            <button id="restart-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition shadow-sm">重新開始</button>
         </section>
+
+        <!-- 恭喜破關滿版特效覆蓋層 -->
+        <div id="victory-overlay" class="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center hidden text-center p-6">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-amber-400 mb-4 animate-bounce tracking-wider">🏆 恭喜破關！ 🏆</h1>
+            <p class="text-xl md:text-2xl text-white mb-8">太神啦！您已成功擊敗所有大魔王關卡！</p>
+            <button id="victory-close-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-bold px-8 py-4 rounded-2xl shadow-lg transition">返回首頁</button>
+        </div>
 
         <!-- 錯題集專區 -->
         <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
@@ -136,7 +143,7 @@
 
     <!-- 頁尾 -->
     <footer class="text-center py-4 text-xs text-slate-400">
-        高二適性單字測驗 &copy; 2026 - 115級真理之門專題生
+        高二適性單字測驗 (L4-L6) &copy; 2026 - 115級真理之門專題生
     </footer>
 
     <!-- 題庫與前端邏輯 -->
@@ -244,7 +251,7 @@
             { "answer_en": "stunning", "meaning_zh": "感動人心的", "sent_en": "She looked stunning in her new dress.", "sent_zh": "她穿著新洋裝看起來驚豔動人。" },
             { "answer_en": "stun", "meaning_zh": "使…驚訝", "sent_en": "The sudden news began to stun everyone.", "sent_zh": "突如其來的消息讓每個人都大吃一驚。" },
             { "answer_en": "superior", "meaning_zh": "優於…；上司", "sent_en": "This material is superior in quality.", "sent_zh": "這種材料在品質上更為優越。" },
-            { "answer_en": "superiority", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "他對其他人有一種優越感。" },
+            { "answer_en": "superiority", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "她對其他人有一種優越感。" },
             { "answer_en": "transform", "meaning_zh": "使改變型態", "sent_en": "Technology continues to transform our lives.", "sent_zh": "科技持續改變著我們的生活型態。" },
             { "answer_en": "transformation", "meaning_zh": "轉變", "sent_en": "The city has undergone a massive transformation.", "sent_zh": "這座城市經歷了巨大的轉變。" },
             { "answer_en": "tumble", "meaning_zh": "滾落；倒塌；暴跌", "sent_en": "He tripped and took a tumble down the stairs.", "sent_zh": "他絆倒並從樓梯上滾了下來。" },
@@ -252,17 +259,14 @@
         ];
 
         let currentMode = "1";
-        let currentRound = 1;
-        let maxRounds = 3;
-        let questionsPerRound = 5;
-        let curRoundIndices = [];
-        let curIndexInRound = 0;
-        let scoreThisRound = 0;
+        let globalQuestionIndex = 0; // 記錄全域答題進度 (0到72)
+        let scoreInCurrentRound = 0;
         let records = [];
         let wrongbook = {};
         let isSubmitted = false;
         let isWordRevealed = false;
         let currentStudent = "";
+        let shuffledBank = []; // 隨機洗牌後的完整題庫順序
 
         function levenshtein(a, b) {
             if (a.length < b.length) return levenshtein(b, a);
@@ -323,18 +327,18 @@
                 return;
             }
 
-            currentRound = 1;
+            // 隨機洗牌整副題庫，確保後續題目不重複
+            shuffledBank = [...QUESTION_BANK];
+            shuffledBank.sort(() => Math.random() - 0.5);
+
+            globalQuestionIndex = 0;
             records = [];
             wrongbook = {};
             startNewRound();
         }
 
         function startNewRound() {
-            let indices = Array.from({length: QUESTION_BANK.length}, (_, i) => i);
-            indices.sort(() => Math.random() - 0.5);
-            curRoundIndices = indices.slice(0, Math.min(questionsPerRound, QUESTION_BANK.length));
-            curIndexInRound = 0;
-            scoreThisRound = 0;
+            scoreInCurrentRound = 0;
             isSubmitted = false;
             
             document.getElementById('setup-section').classList.add('hidden');
@@ -345,7 +349,6 @@
             loadQuestion();
         }
 
-        // 依據模式決定挖洞方式：模式三選項是英文，故完全挖洞；模式一與二保留首尾
         function makeClozeWord(word, mode) {
             if (mode === "3") {
                 return "_".repeat(word.length);
@@ -359,21 +362,60 @@
             return first + middleUnderscores + last;
         }
 
+        // 套用第31題以上的大魔王隨機風格
+        function applyBossTheme(currentQNum) {
+            let body = document.getElementById('page-body');
+            let quizCard = document.getElementById('quiz-section');
+            let progressCard = document.getElementById('progress-card');
+            let mainTitle = document.getElementById('main-title');
+
+            if (currentQNum >= 31) {
+                // 隨機挑選 3 種魔王風格之一
+                let themes = [
+                    { bg: "bg-zinc-900", card: "bg-zinc-800 text-zinc-100 border-red-900 shadow-red-900/50 shadow-lg", prog: "bg-zinc-700 text-zinc-200", title: "text-red-500 boss-animate" },
+                    { bg: "bg-purple-950", card: "bg-purple-900/90 text-purple-100 border-purple-500 shadow-purple-500/50 shadow-lg", prog: "bg-purple-900 text-purple-200", title: "text-amber-400 boss-animate" },
+                    { bg: "bg-stone-900", card: "bg-stone-800 text-amber-100 border-amber-600 shadow-amber-600/40 shadow-lg", prog: "bg-stone-700 text-stone-200", title: "text-amber-500 boss-animate" }
+                ];
+                let chosenTheme = themes[Math.floor(Math.random() * themes.length)];
+
+                body.className = `${chosenTheme.bg} text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-500`;
+                quizCard.className = `hidden p-6 rounded-2xl border mb-6 transition-all duration-300 ${chosenTheme.card}`;
+                progressCard.className = `p-3 rounded-xl mb-6 transition-colors ${chosenTheme.prog}`;
+                mainTitle.className = `text-2xl font-bold ${chosenTheme.title}`;
+            } else {
+                // 一般關卡預設樣式
+                body.className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
+                quizCard.className = "hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6";
+                progressCard.className = "bg-slate-100 p-3 rounded-xl mb-6 transition-colors";
+                mainTitle.className = "text-2xl font-bold text-indigo-600";
+            }
+        }
+
         function loadQuestion() {
+            // 如果超過題庫總數，直接顯示破關畫面
+            if (globalQuestionIndex >= shuffledBank.length) {
+                triggerVictory();
+                return;
+            }
+
             isSubmitted = false;
             isWordRevealed = false;
-            let qidx = curRoundIndices[curIndexInRound];
-            let q = QUESTION_BANK[qidx];
+            let currentQNum = globalQuestionIndex + 1;
+            let q = shuffledBank[globalQuestionIndex];
 
-            document.getElementById('progress-round-text').innerText = `🎯 第 ${currentRound} 回合 (${currentStudent})`;
-            let totalQ = curRoundIndices.length;
-            let currentNum = curIndexInRound + 1;
-            document.getElementById('progress-count-text').innerText = `進度：${currentNum} / ${totalQ}`;
-            let pct = (currentNum / totalQ) * 100;
+            // 套用魔王關卡變色風格
+            applyBossTheme(currentQNum);
+
+            let roundNum = Math.floor(globalQuestionIndex / 5) + 1;
+            let inRoundIdx = (globalQuestionIndex % 5) + 1;
+
+            document.getElementById('progress-round-text').innerText = `🔥 第 ${roundNum} 關 (總第 ${currentQNum} 題) (${currentStudent})`;
+            document.getElementById('progress-count-text').innerText = `本關進度：${inRoundIdx} / 5`;
+            let pct = (inRoundIdx / 5) * 100;
             document.getElementById('progress-bar').style.width = `${pct}%`;
 
             let parts = q.sent_en.split(new RegExp(`\\b${q.answer_en}\\b`, 'i'));
-            document.getElementById('question-prefix').innerText = `Q${currentNum}. ${parts[0] || ""}`;
+            document.getElementById('question-prefix').innerText = `Q${currentQNum}. ${parts[0] || ""}`;
             document.getElementById('question-suffix').innerText = parts[1] || "";
 
             let targetEl = document.getElementById('cloze-word-target');
@@ -383,10 +425,10 @@
                 isWordRevealed = !isWordRevealed;
                 if (isWordRevealed) {
                     targetEl.innerText = q.answer_en;
-                    targetEl.className = "cursor-pointer text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold transition inline-block my-1";
+                    targetEl.className = "cursor-pointer text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500 font-bold transition inline-block my-1";
                 } else {
                     targetEl.innerText = makeClozeWord(q.answer_en, currentMode);
-                    targetEl.className = "cursor-pointer text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 hover:bg-indigo-100 transition inline-block my-1";
+                    targetEl.className = "cursor-pointer text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-500 hover:bg-indigo-900/50 transition inline-block my-1";
                 }
             };
 
@@ -441,7 +483,7 @@
                 optionsData.forEach(opt => {
                     let btn = document.createElement('button');
                     btn.type = "button";
-                    btn.className = "choice-option w-full text-left p-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition font-medium text-slate-700";
+                    btn.className = "choice-option w-full text-left p-3 border border-slate-600 bg-slate-800/50 rounded-xl hover:bg-slate-700/50 transition font-medium text-slate-200";
                     btn.innerText = opt.text;
                     
                     btn.onclick = function() {
@@ -458,11 +500,11 @@
                             b.innerText = correspondingOpt.text + correspondingOpt.subText;
 
                             if (correspondingOpt.isCorrect) {
-                                b.className = "choice-option w-full text-left p-3 border border-emerald-500 bg-emerald-50 text-emerald-700 font-bold rounded-xl transition";
+                                b.className = "choice-option w-full text-left p-3 border border-emerald-500 bg-emerald-950/80 text-emerald-300 font-bold rounded-xl transition";
                             } else if (b === btn && !isCorrect) {
-                                b.className = "choice-option w-full text-left p-3 border border-rose-500 bg-rose-50 text-rose-700 font-bold rounded-xl transition";
+                                b.className = "choice-option w-full text-left p-3 border border-rose-500 bg-rose-950/80 text-rose-300 font-bold rounded-xl transition";
                             } else {
-                                b.className = "choice-option w-full text-left p-3 border border-slate-200 bg-slate-50 text-slate-400 rounded-xl transition opacity-60";
+                                b.className = "choice-option w-full text-left p-3 border border-slate-700 bg-slate-800/30 text-slate-500 rounded-xl transition opacity-50";
                             }
                         });
 
@@ -470,10 +512,10 @@
                         feedbackEl.classList.remove('hidden');
 
                         if (isCorrect) {
-                            feedbackEl.innerHTML = "<div class='text-emerald-600 font-bold'>✅ 回答正確！</div>";
-                            scoreThisRound++;
+                            feedbackEl.innerHTML = "<div class='text-emerald-400 font-bold'>✅ 回答正確！</div>";
+                            scoreInCurrentRound++;
                         } else {
-                            feedbackEl.innerHTML = `<div class='text-rose-600 font-bold'>❌ 錯誤。正確答案：${q.answer_en} (${q.meaning_zh})</div>`;
+                            feedbackEl.innerHTML = `<div class='text-rose-400 font-bold'>❌ 錯誤。正確答案：${q.answer_en} (${q.meaning_zh})</div>`;
                             if (!wrongbook[q.answer_en]) {
                                 wrongbook[q.answer_en] = { ...q, count: 0, chosen: [] };
                             }
@@ -482,7 +524,7 @@
                             renderWrongbook();
                         }
 
-                        records.push({ round: currentRound, qidx, chosen: chosenLabel, correct: q.answer_en, isCorrect });
+                        records.push({ round: roundNum, qidx: globalQuestionIndex, chosen: chosenLabel, correct: q.answer_en, isCorrect });
                         nextBtn.classList.remove('hidden');
                     };
                     choiceContainer.appendChild(btn);
@@ -492,8 +534,7 @@
 
         document.getElementById('submit-input-btn').onclick = function() {
             if (isSubmitted) return;
-            let qidx = curRoundIndices[curIndexInRound];
-            let q = QUESTION_BANK[qidx];
+            let q = shuffledBank[globalQuestionIndex];
             let inputField = document.getElementById('user-answer-input');
             let chosenLabel = inputField.value.trim();
             
@@ -509,11 +550,13 @@
             let feedbackEl = document.getElementById('feedback-area');
             feedbackEl.classList.remove('hidden');
 
+            let roundNum = Math.floor(globalQuestionIndex / 5) + 1;
+
             if (isCorrect) {
-                feedbackEl.innerHTML = "<div class='text-emerald-600 font-bold'>✅ 回答正確！</div>";
-                scoreThisRound++;
+                feedbackEl.innerHTML = "<div class='text-emerald-400 font-bold'>✅ 回答正確！</div>";
+                scoreInCurrentRound++;
             } else {
-                feedbackEl.innerHTML = `<div class='text-rose-600 font-bold'>❌ 錯誤。正確答案：${q.answer_en} (${q.meaning_zh})</div>`;
+                feedbackEl.innerHTML = `<div class='text-rose-400 font-bold'>❌ 錯誤。正確答案：${q.answer_en} (${q.meaning_zh})</div>`;
                 if (!wrongbook[q.answer_en]) {
                     wrongbook[q.answer_en] = { ...q, count: 0, chosen: [] };
                 }
@@ -522,43 +565,25 @@
                 renderWrongbook();
             }
 
-            records.push({ round: currentRound, qidx, chosen: chosenLabel, correct: q.answer_en, isCorrect });
+            records.push({ round: roundNum, qidx: globalQuestionIndex, chosen: chosenLabel, correct: q.answer_en, isCorrect });
             document.getElementById('next-btn').classList.remove('hidden');
         };
 
+        // 點擊下一題或結算判斷
         document.getElementById('next-btn').onclick = function() {
-            curIndexInRound++;
-            if (curIndexInRound >= curRoundIndices.length) {
-                if (scoreThisRound === curRoundIndices.length && currentRound < maxRounds) {
-                    currentRound++;
-                    startNewRound();
-                } else {
-                    showResult();
-                }
+            globalQuestionIndex++;
+            let inRoundPos = globalQuestionIndex % 5;
+
+            // 每 5 題為一個回合結束點
+            if (inRoundPos === 0) {
+                showRoundResult();
             } else {
                 loadQuestion();
             }
         };
 
-        document.getElementById('back-to-setup-btn').onclick = function() {
-            document.getElementById('quiz-section').classList.add('hidden');
-            document.getElementById('result-section').classList.add('hidden');
-            document.getElementById('setup-section').classList.remove('hidden');
-            document.getElementById('back-to-setup-btn').classList.add('hidden');
-        };
-
-        document.getElementById('toggle-hint-btn').onclick = function() {
-            let subEl = document.getElementById('question-sub');
-            if (subEl.classList.contains('hidden')) {
-                subEl.classList.remove('hidden');
-                this.innerText = "隱藏中文提示";
-            } else {
-                subEl.classList.add('hidden');
-                this.innerText = "💡 顯示中文提示";
-            }
-        };
-
-        function showResult() {
+        // 每5題結束後的結算判斷（全對自動晉級，沒全對可選擇繼續挑戰剩餘不重複題目）
+        function showRoundResult() {
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('result-section').classList.remove('hidden');
             document.getElementById('back-to-setup-btn').classList.add('hidden');
@@ -571,7 +596,64 @@
             document.getElementById('res-total').innerText = total;
             document.getElementById('res-correct').innerText = correct;
             document.getElementById('res-acc').innerText = `${acc}%`;
+
+            let continueContainer = document.getElementById('continue-container');
+            let resultTitle = document.getElementById('result-title');
+
+            if (scoreInCurrentRound === 5) {
+                // 5題全對，自動觸發或顯示繼續挑戰下一個5題
+                resultTitle.innerHTML = "🎉 本關 5 題全部答對！太神啦！";
+                if (globalQuestionIndex < shuffledBank.length) {
+                    continueContainer.classList.remove('hidden');
+                } else {
+                    triggerVictory();
+                }
+            } else {
+                // 沒有全對，顯示結算，但也允許繼續挑戰剩餘不重複題目
+                resultTitle.innerHTML = "📊 本關結算（未全對）";
+                continueContainer.classList.remove('hidden');
+            }
         }
+
+        // 點擊繼續挑戰按鈕
+        document.getElementById('continue-btn').onclick = function() {
+            document.getElementById('result-section').classList.add('hidden');
+            startNewRound();
+        };
+
+        // 觸發恭喜破關特效
+        function triggerVictory() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('back-to-setup-btn').classList.add('hidden');
+            document.getElementById('victory-overlay').classList.remove('hidden');
+        }
+
+        document.getElementById('victory-close-btn').onclick = function() {
+            document.getElementById('victory-overlay').classList.add('hidden');
+            document.getElementById('setup-section').classList.remove('hidden');
+            // 回復預設樣式
+            document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
+        };
+
+        document.getElementById('back-to-setup-btn').onclick = function() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('setup-section').classList.remove('hidden');
+            document.getElementById('back-to-setup-btn').classList.add('hidden');
+            document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
+        };
+
+        document.getElementById('toggle-hint-btn').onclick = function() {
+            let subEl = document.getElementById('question-sub');
+            if (subEl.classList.contains('hidden')) {
+                subEl.classList.remove('hidden');
+                this.innerText = "隱藏中文提示";
+            } else {
+                subEl.classList.add('hidden');
+                this.innerText = "💡 顯示中文提示";
+            }
+        };
 
         function renderWrongbook() {
             let container = document.getElementById('wrongbook-list');
@@ -587,14 +669,14 @@
             keys.forEach(key => {
                 let w = wrongbook[key];
                 let div = document.createElement('div');
-                div.className = "p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs space-y-1";
+                div.className = "p-3 bg-slate-800/50 border border-slate-700 rounded-xl text-xs space-y-1 text-slate-200";
                 div.innerHTML = `
-                    <div class="font-bold text-slate-700 flex justify-between">
+                    <div class="font-bold flex justify-between">
                         <span>${w.answer_en} (${w.meaning_zh})</span>
-                        <span class="text-rose-500">錯 ${w.count} 次</span>
+                        <span class="text-rose-400">錯 ${w.count} 次</span>
                     </div>
-                    <div class="text-slate-500">例句：${w.sent_en}</div>
-                    <div class="text-slate-400">你的回答：${w.chosen.join(', ')}</div>
+                    <div class="text-slate-400">例句：${w.sent_en}</div>
+                    <div class="text-slate-500">你的回答：${w.chosen.join(', ')}</div>
                 `;
                 container.appendChild(div);
             });
@@ -614,6 +696,7 @@
         document.getElementById('restart-btn').onclick = function() {
             document.getElementById('result-section').classList.add('hidden');
             document.getElementById('setup-section').classList.remove('hidden');
+            document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
         };
     </script>
 </body>
