@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>高二適性單字測驗</title>
+    <title>高二適性單字測驗 (L4-L6)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
@@ -13,8 +13,9 @@
         <!-- 頂部區塊：結合標題與直向狹長按鈕（直長橫短、置右） -->
         <header class="relative flex justify-center items-center mb-6 pt-2">
             <div class="text-center">
-                <h1 class="text-2xl font-bold text-indigo-600">📝 高二適性單字測驗</h1>
-                <p class="text-sm text-slate-500 mt-1">115級真理之門專題生 (L4-L6)</p>
+                <!-- (L4-L6) 移到大標題後面 -->
+                <h1 class="text-2xl font-bold text-indigo-600">📝 高二適性單字測驗 (L4-L6)</h1>
+                <p class="text-sm text-slate-500 mt-1">115級真理之門專題生</p>
             </div>
             <!-- 直向狹長按鈕，絕對定位在右側不擋標題 -->
             <button id="back-to-setup-btn" type="button" class="hidden absolute right-0 top-1 text-xs bg-white hover:bg-slate-100 text-indigo-600 border border-indigo-200 px-2 py-3 rounded-lg transition font-medium shadow-2xs leading-tight text-center">
@@ -138,7 +139,7 @@
         高二適性單字測驗 &copy; 2026 - 115級真理之門專題生
     </footer>
 
-    <!-- L4-L6 完整題庫與前端邏輯 -->
+    <!-- 題庫與前端邏輯 -->
     <script>
         const QUESTION_BANK = [
             { "answer_en": "accompany", "meaning_zh": "陪伴", "sent_en": "Good books can accompany you throughout your life.", "sent_zh": "好書可以陪伴你度過一生。" },
@@ -344,7 +345,11 @@
             loadQuestion();
         }
 
-        function makeClozeWord(word) {
+        // 依據模式決定挖洞方式：模式三選項是英文，故完全挖洞；模式一與二保留首尾
+        function makeClozeWord(word, mode) {
+            if (mode === "3") {
+                return "_".repeat(word.length);
+            }
             if (word.length <= 2) {
                 return "_".repeat(word.length);
             }
@@ -372,7 +377,7 @@
             document.getElementById('question-suffix').innerText = parts[1] || "";
 
             let targetEl = document.getElementById('cloze-word-target');
-            targetEl.innerText = makeClozeWord(q.answer_en);
+            targetEl.innerText = makeClozeWord(q.answer_en, currentMode);
             
             targetEl.onclick = function() {
                 isWordRevealed = !isWordRevealed;
@@ -380,7 +385,7 @@
                     targetEl.innerText = q.answer_en;
                     targetEl.className = "cursor-pointer text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold transition inline-block my-1";
                 } else {
-                    targetEl.innerText = makeClozeWord(q.answer_en);
+                    targetEl.innerText = makeClozeWord(q.answer_en, currentMode);
                     targetEl.className = "cursor-pointer text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 hover:bg-indigo-100 transition inline-block my-1";
                 }
             };
