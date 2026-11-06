@@ -94,6 +94,7 @@
                     <div id="question-sub" class="text-sm text-slate-500 mt-2 hidden bg-slate-50 p-3 rounded-xl border border-slate-100"></div>
                 </div>
 
+                <!-- 模式一：手寫輸入（即時比對，正確瞬間自動送出） -->
                 <div id="input-mode-container" class="space-y-3">
                     <input type="text" id="user-answer-input" autocomplete="off" placeholder="請輸入英文單字..." class="w-full border border-slate-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <button id="submit-input-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition shadow-sm">送出答案</button>
@@ -251,7 +252,7 @@
             { "answer_en": "stunning", "meaning_zh": "感動人心的", "sent_en": "She looked stunning in her new dress.", "sent_zh": "她穿著新洋裝看起來驚豔動人。" },
             { "answer_en": "stun", "meaning_zh": "使…驚訝", "sent_en": "The sudden news began to stun everyone.", "sent_zh": "突如其來的消息讓每個人都大吃一驚。" },
             { "answer_en": "superior", "meaning_zh": "優於…；上司", "sent_en": "This material is superior in quality.", "sent_zh": "這種材料在品質上更為優越。" },
-            { "answer_en": "superiority", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "他對其他人有一種優越感。" },
+            { "answer_en": "superiority", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "她對其他人有一種優越感。" },
             { "answer_en": "transform", "meaning_zh": "使改變型態", "sent_en": "Technology continues to transform our lives.", "sent_zh": "科技持續改變著我們的生活型態。" },
             { "answer_en": "transformation", "meaning_zh": "轉變", "sent_en": "The city has undergone a massive transformation.", "sent_zh": "這座城市經歷了巨大的轉變。" },
             { "answer_en": "tumble", "meaning_zh": "滾落；倒塌；暴跌", "sent_en": "He tripped and took a tumble down the stairs.", "sent_zh": "他絆倒並從樓梯上滾了下來。" },
@@ -342,7 +343,7 @@
             
             document.getElementById('setup-section').classList.add('hidden');
             document.getElementById('result-section').classList.add('hidden');
-            document.getElementById('quiz-section').classList.remove('hidden'); // 確保顯示答題區
+            document.getElementById('quiz-section').classList.remove('hidden');
             document.getElementById('back-to-setup-btn').classList.remove('hidden');
             
             loadQuestion();
@@ -448,6 +449,16 @@
                 inputField.value = "";
                 inputField.disabled = false;
                 inputField.focus();
+
+                // 移除舊的監聽器並綁定即時輸入檢查
+                inputField.oninput = function() {
+                    if (isSubmitted) return;
+                    let val = inputField.value.trim();
+                    if (val.toLowerCase() === q.answer_en.toLowerCase()) {
+                        // 輸入正確的瞬間，自動觸發送出與公布答案
+                        triggerInputSubmit(true);
+                    }
+                };
             } else {
                 inputContainer.classList.add('hidden');
                 choiceContainer.classList.remove('hidden');
@@ -526,31 +537,23 @@
             }
         }
 
-        document.getElementById('submit-input-btn').onclick = function() {
+        function triggerInputSubmit(isCorrect) {
             if (isSubmitted) return;
+            isSubmitted = true;
             let q = shuffledBank[globalQuestionIndex];
             let inputField = document.getElementById('user-answer-input');
             let chosenLabel = inputField.value.trim();
-            
-            if (!chosenLabel) {
-                alert("請先輸入英文單字！");
-                return;
-            }
-
-            isSubmitted = true;
             inputField.disabled = true;
-            let isCorrect = chosenLabel.toLowerCase() === q.answer_en.toLowerCase();
 
             let feedbackEl = document.getElementById('feedback-area');
             feedbackEl.classList.remove('hidden');
-
             let roundNum = Math.floor(globalQuestionIndex / 5) + 1;
 
             if (isCorrect) {
                 feedbackEl.innerHTML = "<div class='text-emerald-400 font-bold'>✅ 回答正確！</div>";
                 scoreInCurrentRound++;
             } else {
-                feedbackEl.innerHTML = `<div class='text-rose-400 font-bold'>❌ 錯誤。正確答案：${q.answer_en} (${q.meaning_zh})</div>`;
+                feedbackEl.innerHTML = `<div class='text-rose-400 font-bold'>❌ 錯誤。正確答案：<span class="underline">${q.answer_en}</span> (${q.meaning_zh})</div>`;
                 if (!wrongbook[q.answer_en]) {
                     wrongbook[q.answer_en] = { ...q, count: 0, chosen: [] };
                 }
@@ -561,16 +564,50 @@
 
             records.push({ round: roundNum, qidx: globalQuestionIndex, chosen: chosenLabel, correct: q.answer_en, isCorrect });
             document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        // 手動點擊送出按鈕（若使用者不想即時輸入完等自動跳轉，也可以按按鈕）
+        document.getElementById('submit-input-btn').onclick = function() {
+            if (isSubmitted) return;
+            let q = shuffledBank[globalQuestionIndex];
+            let inputField = document.getElementById('user-answer-input');
+            let chosenLabel = inputField.value.trim();
+            
+            if (!chosenLabel) {
+                alert("請先輸入英文單字！");
+                return;
+            }
+            let isCorrect = chosenLabel.toLowerCase() === q.answer_en.toLowerCase();
+            triggerInputSubmit(isCorrect);
         };
 
-        document.getElementById('next-btn').onclick = function() {
-            globalQuestionIndex++;
-            let inRoundPos = globalQuestionIndex % 5;
+        function proceedToNext() {
+            let nextBtn = document.getElementById('next-btn');
+            if (!nextBtn.classList.contains('hidden')) {
+                globalQuestionIndex++;
+                let inRoundPos = globalQuestionIndex % 5;
 
-            if (inRoundPos === 0) {
-                showRoundResult();
-            } else {
-                loadQuestion();
+                if (inRoundPos === 0) {
+                    showRoundResult();
+                } else {
+                    loadQuestion();
+                }
+            }
+        }
+
+        document.getElementById('next-btn').onclick = proceedToNext;
+
+        document.body.onclick = function(e) {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.id === 'cloze-word-target' || e.target.closest('button')) {
+                return;
+            }
+            proceedToNext();
+        };
+
+        window.onkeydown = function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                proceedToNext();
             }
         };
 
