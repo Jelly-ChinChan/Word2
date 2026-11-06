@@ -136,12 +136,11 @@
         const STUDENT_NAMES = [
             "張棨翔", "陳廷宥", "張翔凱", "項怡瑄", "夏翌眒", "朱恩萭", "張幼昕", 
             "林宸楷", "李曜晴", "張雯芯", "陳予彤", "施泓宇", "劉定穎", "張琦紜", 
-            "張晉維", "陳楚弦", "何彥澄", "陳柏亨", "黃勤展"
+            "張晉維", "陳楚弦", "何彥澄", "陳柏亨"
         ];
 
         let cloudRecords = {};
 
-        // 載入時從 Google Sheets 取得雲端最高紀錄
         async function fetchCloudRecords() {
             try {
                 let res = await fetch(SCRIPT_URL);
@@ -160,7 +159,8 @@
                 let rec = cloudRecords[name];
                 let label = name;
                 if (rec) {
-                    label += ` (最高通關：第 ${rec.max_level} 關，答對 ${rec.max_correct} 題)`;
+                    // 精簡化顯示格式：(最高第X關,對X題)
+                    label += ` (最高第${rec.max_level}關,對${rec.max_correct}題)`;
                 }
                 let opt = document.createElement('option');
                 opt.value = name;
@@ -169,7 +169,6 @@
             });
         }
 
-        // 上傳成績至雲端
         function syncScoreToCloud(student, level, correct) {
             let payload = { student: student, level: level, correct: correct };
             fetch(SCRIPT_URL, {
@@ -178,7 +177,6 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             }).then(() => {
-                // 更新本地暫存並重新渲染選單
                 if (!cloudRecords[student] || level > cloudRecords[student].max_level || (level === cloudRecords[student].max_level && correct > cloudRecords[student].max_correct)) {
                     cloudRecords[student] = { max_level: level, max_correct: correct };
                     renderStudentSelect();
@@ -285,15 +283,15 @@
             { "answer_en": "skillfully", "meaning_zh": "熟練地", "sent_en": "He skillfully repaired the old watch.", "sent_zh": "他熟練地修好了那隻舊手錶。" },
             { "answer_en": "slope", "meaning_zh": "斜坡；坡地", "sent_en": "We went skiing down the snowy slope.", "sent_zh": "我們滑雪順著雪坡滑下來。" },
             { "answer_en": "smooth", "meaning_zh": "平滑的；平整的", "sent_en": "The surface of the lake was calm and smooth.", "sent_zh": "湖面平靜而光滑。" },
-            { "answer_en": "smoothness", "meaning_zh": "平滑；細緻", "sent_en": "I love the smoothness of this silk fabric.", "sent_zh": "I love the smoothness of this silk fabric." },
+            { "answer_en": "smoothness", "meaning_zh": "平滑；細緻", "sent_en": "I love the smoothness of this silk fabric.", "sent_zh": "我喜歡這款絲綢布料的細緻感。" },
             { "answer_en": "sorrow", "meaning_zh": "悲傷", "sent_en": "She could not hide her sorrow over the loss.", "sent_zh": "她無法掩飾失去至親的悲傷。" },
             { "answer_en": "sorrowful", "meaning_zh": "悲傷的", "sent_en": "He gave a sorrowful sigh.", "sent_zh": "他發出一聲悲傷的嘆息。" },
             { "answer_en": "splendid", "meaning_zh": "壯麗的；非常好的", "sent_en": "We had a splendid time at the beach.", "sent_zh": "我們在海灘度過了一段美好的時光。" },
             { "answer_en": "splendor", "meaning_zh": "雄偉", "sent_en": "The palace was restored to its former splendor.", "sent_zh": "這座宮殿被修復回了昔日的雄偉風貌。" },
             { "answer_en": "stunning", "meaning_zh": "感動人心的", "sent_en": "She looked stunning in her new dress.", "sent_zh": "她穿著新洋裝看起來驚豔動人。" },
-            { "answer_en": "stun", "meaning_zh": "使…驚訝", "sent_en": "The sudden news began to stun everyone.", "sent_en": "突如其來的消息讓每個人都大吃一驚。" },
+            { "answer_en": "stun", "meaning_zh": "使…驚訝", "sent_en": "The sudden news began to stun everyone.", "sent_zh": "突如其來的消息讓每個人都大吃一驚。" },
             { "answer_en": "superior", "meaning_zh": "優於…；上司", "sent_en": "This material is superior in quality.", "sent_zh": "這種材料在品質上更為優越。" },
-            { "answer_en": "superior", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "他對其他人有一種優越感。" },
+            { "answer_en": "superiority", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "她對其他人有一種優越感。" },
             { "answer_en": "transform", "meaning_zh": "使改變型態", "sent_en": "Technology continues to transform our lives.", "sent_zh": "科技持續改變著我們的生活型態。" },
             { "answer_en": "transformation", "meaning_zh": "轉變", "sent_en": "The city has undergone a massive transformation.", "sent_zh": "這座城市經歷了巨大的轉變。" },
             { "answer_en": "tumble", "meaning_zh": "滾落；倒塌；暴跌", "sent_en": "He tripped and took a tumble down the stairs.", "sent_zh": "他絆倒並從樓梯上滾了下來。" },
@@ -450,7 +448,8 @@
             let pct = (inRoundIdx / 5) * 100;
             document.getElementById('progress-bar').style.width = `${pct}%`;
 
-            let parts = q.sent_en.split(new RegExp(`\\b${q.answer_en}\\b`, 'i'));
+            let sent = q.sent_en;
+            let parts = sent.split(new RegExp(`\\b${q.answer_en}\\b`, 'i'));
             document.getElementById('question-prefix').innerText = `Q${currentQNum}. ${parts[0] || ""}`;
             document.getElementById('question-suffix').innerText = parts[1] || "";
 
@@ -657,7 +656,6 @@
             document.getElementById('res-correct').innerText = correct;
             document.getElementById('res-acc').innerText = `${acc}%`;
 
-            // 計算當前通關關卡與累積答對題數，並同步至雲端
             let currentLevel = Math.floor(globalQuestionIndex / 5);
             let totalCorrectSoFar = records.filter(r => r.isCorrect).length;
             syncScoreToCloud(currentStudent, currentLevel, totalCorrectSoFar);
@@ -694,7 +692,7 @@
             document.getElementById('victory-overlay').classList.add('hidden');
             document.getElementById('setup-section').classList.remove('hidden');
             document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
-            fetchCloudRecords(); // 重新讀取雲端選單紀錄
+            fetchCloudRecords();
         };
 
         document.getElementById('back-to-setup-btn').onclick = function() {
@@ -703,7 +701,7 @@
             document.getElementById('setup-section').classList.remove('hidden');
             document.getElementById('back-to-setup-btn').classList.add('hidden');
             document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
-            fetchCloudRecords(); // 重新讀取雲端選單紀錄
+            fetchCloudRecords();
         };
 
         document.getElementById('toggle-hint-btn').onclick = function() {
@@ -758,7 +756,7 @@
             document.getElementById('result-section').classList.add('hidden');
             document.getElementById('setup-section').classList.remove('hidden');
             document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
-            fetchCloudRecords(); // 重新讀取雲端選單紀錄
+            fetchCloudRecords();
         };
     </script>
 </body>
