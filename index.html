@@ -159,7 +159,7 @@
             
             STUDENT_NAMES.forEach(name => {
                 let studentData = cloudRecords[name] || {};
-                let modeRec = studentData[currentMode]; // 取得目前選擇模式的紀錄
+                let modeRec = studentData[currentMode];
                 let label = name;
                 if (modeRec && modeRec.max_level > 0) {
                     label += ` (最高第${modeRec.max_level}關,對${modeRec.max_correct}題)`;
@@ -286,7 +286,7 @@
             { "answer_en": "rustle", "meaning_zh": "沙沙作響", "sent_en": "Leaves rustle in the autumn wind.", "sent_zh": "落葉在秋風中沙沙作響。" },
             { "answer_en": "skillful", "meaning_zh": "熟練的", "sent_en": "She is a skillful pianist.", "sent_zh": "她是一位熟練的鋼琴家。" },
             { "answer_en": "skillfully", "meaning_zh": "熟練地", "sent_en": "He skillfully repaired the old watch.", "sent_zh": "他熟練地修好了那隻舊手錶。" },
-            { "answer_en": "slope", "meaning_zh": "斜坡；坡地", "sent_en": "We went skiing down the snowy slope.", "sent_zh": "我們滑雪順著雪坡滑下來。" },
+            { "answer_en": "slope", "meaning_zh": "斜坡；坡地", "sent_en": "We went skiing down the snowy slope.", "sent_zh": "We went skiing down the snowy slope." },
             { "answer_en": "smooth", "meaning_zh": "平滑的；平整的", "sent_en": "The surface of the lake was calm and smooth.", "sent_zh": "湖面平靜而光滑。" },
             { "answer_en": "smoothness", "meaning_zh": "平滑；細緻", "sent_en": "I love the smoothness of this silk fabric.", "sent_zh": "我喜歡這款絲綢布料的細緻感。" },
             { "answer_en": "sorrow", "meaning_zh": "悲傷", "sent_en": "She could not hide her sorrow over the loss.", "sent_zh": "她無法掩飾失去至親的悲傷。" },
@@ -337,26 +337,47 @@
 
         function getSmartDistractors(word, meaningZh, k = 3) {
             let cands = new Set();
+            // 透過 Set 過濾掉中文意思重複的選項
+            let usedMeanings = new Set([meaningZh]);
+
+            // 1. 編輯距離相近者
             QUESTION_BANK.forEach(it => {
-                if (it.answer_en !== word && levenshtein(word, it.answer_en) <= 3) cands.add(it.answer_en);
+                if (it.answer_en !== word && !usedMeanings.has(it.meaning_zh) && levenshtein(word, it.answer_en) <= 3) {
+                    cands.add(it.answer_en);
+                    usedMeanings.add(it.meaning_zh);
+                }
             });
+            // 2. 同詞性者
             let pos = getPos(word);
             QUESTION_BANK.forEach(it => {
-                if (it.answer_en !== word && getPos(it.answer_en) === pos) cands.add(it.answer_en);
+                if (it.answer_en !== word && !usedMeanings.has(it.meaning_zh) && getPos(it.answer_en) === pos) {
+                    cands.add(it.answer_en);
+                    usedMeanings.add(it.meaning_zh);
+                }
             });
+            // 3. 中文字首相同者
             if (meaningZh) {
                 let head = meaningZh.slice(0, 1);
                 QUESTION_BANK.forEach(it => {
-                    if (it.answer_en !== word && it.meaning_zh.startsWith(head)) cands.add(it.answer_en);
+                    if (it.answer_en !== word && !usedMeanings.has(it.meaning_zh) && it.meaning_zh.startsWith(head)) {
+                        cands.add(it.answer_en);
+                        usedMeanings.add(it.meaning_zh);
+                    }
                 });
             }
 
             let candsArr = Array.from(cands);
             if (candsArr.length < k) {
-                let pool = QUESTION_BANK.filter(it => it.answer_en !== word).map(it => it.answer_en);
+                let pool = QUESTION_BANK.filter(it => it.answer_en !== word && !usedMeanings.has(it.meaning_zh)).map(it => it.answer_en);
                 pool.sort(() => Math.random() - 0.5);
                 for (let p of pool) {
-                    if (!candsArr.includes(p) && candsArr.length < k) candsArr.push(p);
+                    if (!candsArr.includes(p) && candsArr.length < k) {
+                        let foundItem = QUESTION_BANK.find(it => it.answer_en === p);
+                        if (foundItem && !usedMeanings.has(foundItem.meaning_zh)) {
+                            candsArr.push(p);
+                            usedMeanings.add(foundItem.meaning_zh);
+                        }
+                    }
                 }
             }
             candsArr.sort(() => Math.random() - 0.5);
@@ -767,7 +788,7 @@
                 });
                 this.className = "mode-btn py-2 px-3 text-xs font-medium rounded-lg border border-indigo-600 bg-indigo-600 text-white transition";
                 currentMode = this.getAttribute('data-mode');
-                renderStudentSelect(); // 切換模式時即時更新下拉選單中該模式的紀錄
+                renderStudentSelect();
             };
         });
 
