@@ -65,8 +65,11 @@
             </div>
 
             <div class="mb-6">
+                <!-- 句內嵌入挖空區塊 -->
                 <div id="question-container" class="text-lg font-bold text-slate-800 mb-3 leading-relaxed transition-colors duration-500">
-                    <span id="question-prefix">Q1. </span><span id="cloze-word-target" class="cursor-pointer text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 hover:bg-indigo-100 transition inline-block my-1" title="點擊顯示/隱藏完整單字">r_______e</span><span id="question-suffix"> with her new hairstyle.</span>
+                    <span id="question-prefix">Q1. </span>
+                    <span id="cloze-word-target" class="cursor-pointer text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 hover:bg-indigo-100 transition inline-block my-1" title="點擊顯示/隱藏完整單字">r_______e</span>
+                    <span id="question-suffix"> with her new hairstyle.</span>
                 </div>
                 
                 <div class="mb-4">
@@ -141,7 +144,7 @@
 
         let cloudRecords = {};
         let currentMode = "1";
-        let currentMatchedWord = ""; // 記錄當前句子實際符合的單字型態（如 crops, awaits）
+        let currentMatchedWord = "";
 
         async function fetchCloudRecords() {
             try {
@@ -381,6 +384,18 @@
             return candsArr.slice(0, k);
         }
 
+        // 智慧尋找句子中對應的單字（支援原形與各種變化形如 reunited, crops）
+        function findMatchedWordInSentence(sent, baseWord) {
+            let words = sent.match(/\b[a-zA-Z]+\b/g) || [];
+            for (let w of words) {
+                if (w.toLowerCase() === baseWord.toLowerCase()) return w;
+            }
+            for (let w of words) {
+                if (w.toLowerCase().startsWith(baseWord.toLowerCase())) return w;
+            }
+            return baseWord;
+        }
+
         function initQuiz() {
             let studentSelect = document.getElementById('student-select');
             currentStudent = studentSelect.value;
@@ -485,13 +500,14 @@
             let pct = (inRoundIdx / 5) * 100;
             document.getElementById('progress-bar').style.width = `${pct}%`;
 
-            // 智慧比對句子中對應的單字或其變化形（如 crops, awaits）並取代之
+            // 智慧尋找句中對應單字並完美在句內挖空
             let sent = q.sent_en;
-            let regex = new RegExp(`\\b(${q.answer_en}[a-z]*)\\b`, 'i');
-            let match = sent.match(regex);
-            currentMatchedWord = match ? match[1] : q.answer_en;
-            
+            let matchedWord = findMatchedWordInSentence(sent, q.answer_en);
+            currentMatchedWord = matchedWord;
+
+            let regex = new RegExp(`\\b(${matchedWord})\\b`, 'i');
             let parts = sent.split(regex);
+            
             let prefix = parts[0] || "";
             let suffix = parts[2] || "";
 
@@ -499,15 +515,15 @@
             document.getElementById('question-suffix').innerText = suffix;
 
             let targetEl = document.getElementById('cloze-word-target');
-            targetEl.innerText = makeClozeWord(currentMatchedWord, currentMode);
+            targetEl.innerText = makeClozeWord(matchedWord, currentMode);
             
             targetEl.onclick = function() {
                 isWordRevealed = !isWordRevealed;
                 if (isWordRevealed) {
-                    targetEl.innerText = currentMatchedWord;
+                    targetEl.innerText = matchedWord;
                     targetEl.className = "cursor-pointer text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500 font-bold transition inline-block my-1";
                 } else {
-                    targetEl.innerText = makeClozeWord(currentMatchedWord, currentMode);
+                    targetEl.innerText = makeClozeWord(matchedWord, currentMode);
                     targetEl.className = "cursor-pointer text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-500 hover:bg-indigo-900/50 transition inline-block my-1";
                 }
             };
