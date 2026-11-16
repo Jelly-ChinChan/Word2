@@ -141,6 +141,7 @@
 
         let cloudRecords = {};
         let currentMode = "1";
+        let currentMatchedWord = ""; // 記錄當前句子實際符合的單字型態（如 crops, awaits）
 
         async function fetchCloudRecords() {
             try {
@@ -290,7 +291,7 @@
             { "answer_en": "smooth", "meaning_zh": "平滑的；平整的", "sent_en": "The surface of the lake was calm and smooth.", "sent_zh": "湖面平靜而光滑。" },
             { "answer_en": "smoothness", "meaning_zh": "平滑；細緻", "sent_en": "I love the smoothness of this silk fabric.", "sent_zh": "我喜歡這款絲綢布料的細緻感。" },
             { "answer_en": "sorrow", "meaning_zh": "悲傷", "sent_en": "She could not hide her sorrow over the loss.", "sent_zh": "她無法掩飾失去至親的悲傷。" },
-            { "answer_en": "sorrowful", "meaning_zh": "悲傷的", "sent_en": "He gave a sorrowful sigh.", "sent_zh": "He gave a sorrowful sigh." },
+            { "answer_en": "sorrowful", "meaning_zh": "悲傷的", "sent_en": "He gave a sorrowful sigh.", "sent_zh": "他發出一聲悲傷的嘆息。" },
             { "answer_en": "splendid", "meaning_zh": "壯麗的；非常好的", "sent_en": "We had a splendid time at the beach.", "sent_zh": "我們在海灘度過了一段美好的時光。" },
             { "answer_en": "splendor", "meaning_zh": "雄偉", "sent_en": "The palace was restored to its former splendor.", "sent_zh": "這座宮殿被修復回了昔日的雄偉風貌。" },
             { "answer_en": "stunning", "meaning_zh": "感動人心的", "sent_en": "She looked stunning in her new dress.", "sent_zh": "她穿著新洋裝看起來驚豔動人。" },
@@ -484,21 +485,29 @@
             let pct = (inRoundIdx / 5) * 100;
             document.getElementById('progress-bar').style.width = `${pct}%`;
 
+            // 智慧比對句子中對應的單字或其變化形（如 crops, awaits）並取代之
             let sent = q.sent_en;
-            let parts = sent.split(new RegExp(`\\b${q.answer_en}\\b`, 'i'));
-            document.getElementById('question-prefix').innerText = `Q${currentQNum}. ${parts[0] || ""}`;
-            document.getElementById('question-suffix').innerText = parts[1] || "";
+            let regex = new RegExp(`\\b(${q.answer_en}[a-z]*)\\b`, 'i');
+            let match = sent.match(regex);
+            currentMatchedWord = match ? match[1] : q.answer_en;
+            
+            let parts = sent.split(regex);
+            let prefix = parts[0] || "";
+            let suffix = parts[2] || "";
+
+            document.getElementById('question-prefix').innerText = `Q${currentQNum}. ${prefix}`;
+            document.getElementById('question-suffix').innerText = suffix;
 
             let targetEl = document.getElementById('cloze-word-target');
-            targetEl.innerText = makeClozeWord(q.answer_en, currentMode);
+            targetEl.innerText = makeClozeWord(currentMatchedWord, currentMode);
             
             targetEl.onclick = function() {
                 isWordRevealed = !isWordRevealed;
                 if (isWordRevealed) {
-                    targetEl.innerText = q.answer_en;
+                    targetEl.innerText = currentMatchedWord;
                     targetEl.className = "cursor-pointer text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500 font-bold transition inline-block my-1";
                 } else {
-                    targetEl.innerText = makeClozeWord(q.answer_en, currentMode);
+                    targetEl.innerText = makeClozeWord(currentMatchedWord, currentMode);
                     targetEl.className = "cursor-pointer text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-500 hover:bg-indigo-900/50 transition inline-block my-1";
                 }
             };
@@ -528,8 +537,8 @@
 
                 inputField.oninput = function() {
                     if (isSubmitted) return;
-                    let val = inputField.value.trim();
-                    if (val.toLowerCase() === q.answer_en.toLowerCase()) {
+                    let val = inputField.value.trim().toLowerCase();
+                    if (val === q.answer_en.toLowerCase() || val === currentMatchedWord.toLowerCase()) {
                         triggerInputSubmit(true);
                     }
                 };
@@ -642,9 +651,8 @@
             if (isSubmitted) return;
             let q = shuffledBank[globalQuestionIndex];
             let inputField = document.getElementById('user-answer-input');
-            let chosenLabel = inputField.value.trim();
-            
-            let isCorrect = (chosenLabel.toLowerCase() === q.answer_en.toLowerCase());
+            let val = inputField.value.trim().toLowerCase();
+            let isCorrect = (val === q.answer_en.toLowerCase() || val === currentMatchedWord.toLowerCase());
             triggerInputSubmit(isCorrect);
         };
 
