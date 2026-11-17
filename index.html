@@ -1,962 +1,822 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>【展氏新解】鹽的分類與酸鹼性 ── 板書同步教學網頁</title>
-  <style>
-    :root {
-      --bg-board: #142c1f;
-      --board-frame: #3d2314;
-      --card-bg: rgba(255, 255, 255, 0.06);
-      --card-border: rgba(255, 255, 255, 0.16);
-      --text-main: #f1f5f9;
-      --text-sub: #cbd5e1;
-      --chalk-yellow: #fde047;
-      --chalk-cyan: #67e8f9;
-      --chalk-orange: #fdba74;
-      --chalk-green: #86efac;
-      --chalk-red: #f87171;
-      --highlight-bg: rgba(253, 224, 71, 0.18);
-      --section-box-bg: rgba(0, 0, 0, 0.22);
-      --reaction-bg: rgba(0, 0, 0, 0.35);
-      --table-th-bg: rgba(255, 255, 255, 0.1);
-      --box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-
-      --ext-card-bg: #131a2e;
-      --ext-card-border: #3b4261;
-      --ext-title: #c084fc;
-      --ext-badge-bg: rgba(192, 132, 252, 0.18);
-      --ext-badge-border: #a855f7;
-      --ext-inner-box: rgba(0, 0, 0, 0.3);
-    }
-
-    body.theme-paper {
-      --bg-board: #ffffff;
-      --board-frame: #94a3b8;
-      --card-bg: #f8fafc;
-      --card-border: #cbd5e1;
-      --text-main: #0f172a;
-      --text-sub: #334155;
-      --chalk-yellow: #92400e;
-      --chalk-cyan: #0284c7;
-      --chalk-orange: #c2410c;
-      --chalk-green: #15803d;
-      --chalk-red: #b91c1c;
-      --highlight-bg: #fef3c7;
-      --section-box-bg: #f1f5f9;
-      --reaction-bg: #e2e8f0;
-      --table-th-bg: #e2e8f0;
-      --box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-
-      --ext-card-bg: #f5f3ff;
-      --ext-card-border: #c7d2fe;
-      --ext-title: #4338ca;
-      --ext-badge-bg: #ede9fe;
-      --ext-badge-border: #6366f1;
-      --ext-inner-box: #ffffff;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; overflow-x: hidden; }
-
-    body {
-      background-color: #08100c;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-      color: var(--text-main);
-      padding: 8px;
-      line-height: 1.55;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-wrap: pretty;
-    }
-
-    body.theme-paper { background-color: #e2e8f0; }
-
-    .toolbar {
-      width: 100%;
-      max-width: 1560px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-      padding: 10px 16px;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(8px);
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    body.theme-paper .toolbar {
-      background: #ffffff;
-      border-color: #cbd5e1;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .toolbar-title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .brand-tag {
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #ffffff;
-      padding: 3px 8px;
-      border-radius: 5px;
-      font-size: 0.85rem;
-      white-space: nowrap;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-
-    .toolbar-title { font-weight: 700; font-size: 0.88rem; }
-
-    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    @media (max-width: 720px) {
-      .toolbar { flex-direction: column; align-items: stretch; }
-      .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    }
-
-    .btn {
-      padding: 7px 14px;
-      font-size: 0.86rem;
-      border: 1px solid var(--card-border);
-      background: var(--card-bg);
-      color: var(--text-main);
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
-    .btn-primary { background: #2563eb !important; color: #ffffff !important; border-color: #3b82f6 !important; }
-
-    .board-container {
-      width: 100%;
-      max-width: 1560px;
-      background-color: var(--bg-board);
-      border: 8px solid var(--board-frame);
-      border-radius: 14px;
-      box-shadow: var(--box-shadow);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    @media (max-width: 600px) { .board-container { border-width: 5px; padding: 8px; } }
-
-    .board-header {
-      text-align: center;
-      border-bottom: 2px dashed var(--card-border);
-      padding-bottom: 10px;
-    }
-
-    .main-title-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .board-header h1 {
-      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
-      letter-spacing: 1.5px;
-      color: var(--chalk-yellow);
-      font-weight: 900;
-    }
-
-    .badge-pill {
-      font-size: 0.78rem;
-      background: var(--highlight-bg);
-      color: var(--chalk-cyan);
-      padding: 3px 8px;
-      border-radius: 20px;
-      border: 1px solid var(--chalk-cyan);
-      font-weight: 700;
-    }
-
-    .board-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      align-items: stretch;
-    }
-
-    @media (max-width: 1400px) { .board-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 900px) { .board-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px) { .board-grid { grid-template-columns: 1fr; } }
-
-    .col-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .col-title {
-      font-size: 0.96rem;
-      font-weight: 800;
-      color: var(--chalk-yellow);
-      border-bottom: 2px solid var(--chalk-cyan);
-      padding-bottom: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .section-box {
-      background: var(--section-box-bg);
-      border-left: 3px solid var(--chalk-yellow);
-      padding: 9px;
-      border-radius: 5px;
-      font-size: 0.84rem;
-      line-height: 1.55;
-    }
-
-    .sub-head {
-      font-weight: 900;
-      color: var(--chalk-yellow);
-      margin-bottom: 4px;
-      font-size: 0.88rem;
-      letter-spacing: 0.5px;
-    }
-
-    .reaction-box {
-      background: var(--reaction-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 9px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.82rem;
-      line-height: 1.5;
-      letter-spacing: -0.4px;
-    }
-
-    .role-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 6px 0;
-      font-size: 0.75rem;
-      background: rgba(0, 0, 0, 0.22);
-      border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid var(--card-border);
-      letter-spacing: -0.3px;
-    }
-    .role-table th, .role-table td {
-      padding: 4px 5px;
-      text-align: center;
-      border: 1px solid var(--card-border);
-      vertical-align: middle;
-    }
-    .role-table th { background: var(--table-th-bg); font-weight: 800; }
-
-    .note-pill {
-      display: inline-block;
-      padding: 2px 7px;
-      border-radius: 4px;
-      background: var(--highlight-bg);
-      color: var(--chalk-yellow);
-      font-size: 0.77rem;
-      font-weight: 700;
-      margin-top: 4px;
-    }
-
-    /* 精準垂直置中對齊的 Ka 箭頭樣式 */
-    .eq-scroll-wrap {
-      width: 100%;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 6px 2px;
-      scrollbar-width: thin;
-    }
-    .eq-scroll-wrap::-webkit-scrollbar { height: 4px; }
-    .eq-scroll-wrap::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
-
-    .chem-line {
-      display: inline-flex;
-      align-items: center;
-      font-family: monospace;
-      font-size: 0.8rem;
-    }
-
-    .arrow-container {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      vertical-align: middle;
-      margin: 0 4px;
-      height: 28px;
-    }
-    .arrow-container .ka-label {
-      font-size: 0.62rem;
-      color: var(--chalk-yellow);
-      font-weight: bold;
-      line-height: 1;
-      margin-bottom: 2px;
-    }
-    .arrow-container .arrow-line {
-      font-size: 0.85rem;
-      color: var(--chalk-cyan);
-      line-height: 1;
-    }
-
-    .cloze { transition: background-color 0.2s ease, color 0.2s ease; cursor: default; }
-    body.cloze-mode .cloze {
-      background: #475569 !important;
-      color: transparent !important;
-      border-radius: 4px;
-      padding: 1px 6px;
-      margin: 0 1px;
-      cursor: pointer !important;
-      user-select: none;
-      border: 1px dashed var(--chalk-yellow) !important;
-      display: inline-block;
-      vertical-align: baseline;
-      min-width: 1.5em;
-    }
-    body.cloze-mode.theme-paper .cloze { background: #cbd5e1 !important; border: 1px dashed #475569 !important; }
-    body.cloze-mode .cloze.revealed {
-      background: var(--highlight-bg) !important;
-      color: inherit !important;
-      border: 1.5px solid var(--chalk-green) !important;
-      cursor: pointer !important;
-    }
-
-    /* 測驗 Modal */
-    .quiz-modal {
-      position: fixed; inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(6px);
-      z-index: 9999;
-      display: none;
-      overflow-y: auto;
-      padding: 16px 8px;
-    }
-    .quiz-modal.active { display: flex; justify-content: center; align-items: flex-start; }
-    .quiz-card-container {
-      background: #0f172a; border: 2px solid #334155; border-radius: 12px;
-      width: 100%; max-width: 860px; color: #f8fafc; padding: 16px; margin: auto;
-      display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-    }
-    body.theme-paper .quiz-card-container { background: #ffffff; color: #0f172a; border-color: #cbd5e1; }
-    .quiz-header {
-      display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 2px solid #475569; padding-bottom: 10px;
-    }
-    .quiz-stats-bar {
-      display: flex; justify-content: space-between;
-      background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 0.82rem; align-items: center;
-    }
-    body.theme-paper .quiz-stats-bar { background: #f1f5f9; }
-    .question-block {
-      background: rgba(255,255,255,0.03); border: 1px solid #334155; border-radius: 8px;
-      padding: 12px; display: flex; flex-direction: column; gap: 8px;
-    }
-    body.theme-paper .question-block { background: #f8fafc; border-color: #e2e8f0; }
-    .q-badge { font-size: 0.72rem; padding: 2px 6px; border-radius: 4px; background: #3b82f6; color: #fff; width: fit-content; }
-    .option-list { display: flex; flex-direction: column; gap: 6px; }
-    .opt-btn {
-      text-align: left; padding: 8px 12px; border-radius: 6px;
-      background: rgba(255,255,255,0.05); border: 1px solid #475569; color: inherit; cursor: pointer; font-size: 0.85rem;
-      transition: all 0.15s;
-    }
-    body.theme-paper .opt-btn { background: #ffffff; border-color: #cbd5e1; }
-    .opt-btn.correct { background: #14532d !important; border-color: #22c55e !important; color: #86efac !important; font-weight: bold; }
-    body.theme-paper .opt-btn.correct { background: #dcfce7 !important; border-color: #22c55e !important; color: #15803d !important; }
-    .opt-btn.wrong { background: #7f1d1d !important; border-color: #ef4444 !important; color: #fca5a5 !important; font-weight: bold; }
-    body.theme-paper .opt-btn.wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #b91c1c !important; }
-    .expl-box {
-      margin-top: 4px; padding: 8px; background: rgba(0,0,0,0.3);
-      border-left: 3px solid #f59e0b; border-radius: 4px; font-size: 0.82rem; display: none; line-height: 1.5;
-    }
-    body.theme-paper .expl-box { background: #f1f5f9; }
-    .expl-box.show { display: block; }
-
-    .footer {
-      text-align: center; padding: 14px 0 6px 0; border-top: 1px dashed var(--card-border);
-      font-size: 0.8rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 4px; align-items: center;
-    }
-    .footer-copyright { font-weight: 800; color: var(--chalk-yellow); letter-spacing: 1px; }
-
-    @media print {
-      .toolbar, .quiz-modal { display: none !important; }
-      body { background: #ffffff !important; padding: 0 !important; }
-      .board-container { border: none !important; box-shadow: none !important; max-width: 100% !important; }
-      @page { size: A4 landscape; margin: 5mm; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- 控制工具列 -->
-  <div class="toolbar">
-    <div class="toolbar-title-wrap">
-      <span class="brand-tag">展氏新解</span>
-      <span class="toolbar-title">鹽的分類與酸鹼性 ── 板書同步教學網頁</span>
-    </div>
-    <div class="btn-group">
-      <button class="btn btn-primary" onclick="openQuiz()">📝 進入隨堂測驗</button>
-      <button class="btn" onclick="toggleTheme()">🎨 切換黑板/紙本模式</button>
-      <button class="btn" onclick="toggleCloze()">✏️ 課堂挖空複習</button>
-      <button class="btn" onclick="window.print()">🖨️ 列印 A4 講義</button>
-    </div>
-  </div>
-
-  <div class="board-container">
-    
-    <!-- 頂部黑板標題 -->
-    <div class="board-header">
-      <div class="main-title-wrap">
-        <span class="brand-tag" style="font-size:0.95rem; padding:3px 8px;">展氏新解</span>
-        <h1>鹽的分類與酸鹼性</h1>
-        <span class="badge-pill">一元酸及其鹽 · 二元酸及其鹽 · 三元酸及其鹽 · 重要鹽類命名 · 離子水解酸鹼性</span>
-      </div>
-    </div>
-
-    <!-- 五大核心欄位 -->
-    <div class="board-grid">
-
-      <!-- 欄位一（左板）：一元酸及其鹽 -->
-      <div class="col-card">
-        <div class="col-title">
-          <span>一、一元酸及其鹽</span>
-          <span style="font-size:0.75rem; opacity:0.8;">共軛酸鹼對與中和對照</span>
-        </div>
-
-        <!-- 1. HCl 系統 -->
-        <div class="section-box">
-          <div class="sub-head" style="color:var(--chalk-yellow);">1. 視角對照表 (HCl 系統)</div>
-          <table class="role-table">
-            <tr style="background:rgba(0,0,0,0.4);">
-              <th>比較維度</th>
-              <th>從共軛酸鹼對來看</th>
-              <th>從酸鹼中和來看</th>
-            </tr>
-            <tr>
-              <td><b>反應式</b></td>
-              <td>HCl ➔ Cl<sup>-</sup></td>
-              <td>HCl ➔ Cl<sup>-</sup></td>
-            </tr>
-            <tr>
-              <td><b>名詞</b></td>
-              <td>酸 ➔ 共軛鹼</td>
-              <td>酸 ➔ 鹽</td>
-            </tr>
-            <tr>
-              <td><b>形容詞</b></td>
-              <td>酸性 ➔ 鹼性</td>
-              <td>--</td>
-            </tr>
-            <tr>
-              <td><b>副詞</b></td>
-              <td>
-                超強酸性 ➔ 超弱鹼性<br>
-                <span style="color:var(--chalk-yellow); display:inline-block; margin-top:2px;">pH約 7</span>
-              </td>
-              <td>--</td>
-            </tr>
-          </table>
-          <div style="font-size:0.75rem; margin-top:4px; line-height:1.4;">
-            • ① Cl<sup>-</sup> 是 HCl 被酸鹼中和後的半產物，例如氯鹽。<br>
-            • ② Cl<sup>-</sup> 也是 HCl 的共軛鹼。因 HCl 酸性很強，故 Cl<sup>-</sup> 鹼性極弱。<br>
-            <b style="color:var(--chalk-yellow);">由①、②得：</b>Cl<sup>-</sup> 所形成的鹽類，水中鹼性忽略，呈中性。
-          </div>
-        </div>
-
-        <!-- 2. HF 系統 -->
-        <div class="section-box" style="border-left-color: var(--chalk-cyan);">
-          <div class="sub-head" style="color:var(--chalk-yellow);">2. 視角對照表 (HF 系統)</div>
-          <table class="role-table">
-            <tr style="background:rgba(0,0,0,0.4);">
-              <th>比較維度</th>
-              <th>從共軛酸鹼對來看</th>
-              <th>從酸鹼中和來看</th>
-            </tr>
-            <tr>
-              <td><b>反應式</b></td>
-              <td>HF ➔ F<sup>-</sup><br>F<sup>-</sup>+H<sub>2</sub>O⇌HF+OH<sup>-</sup></td>
-              <td>HF ➔ F<sup>-</sup></td>
-            </tr>
-            <tr>
-              <td><b>名詞</b></td>
-              <td>酸 ➔ 共軛鹼(鹽)</td>
-              <td>酸 ➔ 鹽</td>
-            </tr>
-            <tr>
-              <td><b>形容詞</b></td>
-              <td>酸性 ➔ 鹼性</td>
-              <td>--</td>
-            </tr>
-            <tr>
-              <td><b>副詞</b></td>
-              <td>
-                多弱酸性 ➔ 強鹼性<br>
-                <span style="color:var(--chalk-yellow); display:inline-block; margin-top:2px;">pH &gt; 7</span>
-              </td>
-              <td>--</td>
-            </tr>
-          </table>
-          <div style="font-size:0.75rem; margin-top:4px; line-height:1.4;">
-            • F<sup>-</sup> 發生水解：F<sup>-</sup> + H<sub>2</sub>O ⇌ HF + OH<sup>-</sup>。<br>
-            • 故弱酸強鹼鹽（如 NaF）水溶液顯 <b style="color:var(--chalk-yellow);">鹼性</b>。
-          </div>
-        </div>
-
-        <!-- 3. CH3COOH 系統 -->
-        <div class="section-box" style="border-left-color: var(--chalk-green);">
-          <div class="sub-head" style="color:var(--chalk-yellow);">3. 視角對照表 (CH<sub>3</sub>COOH 系統)</div>
-          <table class="role-table">
-            <tr style="background:rgba(0,0,0,0.4);">
-              <th>比較維度</th>
-              <th>從共軛酸鹼對來看</th>
-              <th>從酸鹼中和來看</th>
-            </tr>
-            <tr>
-              <td><b>反應式</b></td>
-              <td>CH<sub>3</sub>COOH ➔ CH<sub>3</sub>COO<sup>-</sup></td>
-              <td>CH<sub>3</sub>COOH ➔ 鹽</td>
-            </tr>
-            <tr>
-              <td><b>名詞</b></td>
-              <td>酸 ➔ 共軛鹼(鹽)</td>
-              <td>酸 ➔ 鹽</td>
-            </tr>
-            <tr>
-              <td><b>形容詞</b></td>
-              <td>酸性 ➔ 鹼性</td>
-              <td>--</td>
-            </tr>
-            <tr>
-              <td><b>副詞</b></td>
-              <td>
-                更弱酸性 ➔ 更強鹼性<br>
-                <span style="color:var(--chalk-yellow); display:inline-block; margin-top:2px;">pH &gt; 7</span>
-              </td>
-              <td>--</td>
-            </tr>
-          </table>
-          <div style="font-size:0.75rem; margin-top:4px; line-height:1.4;">
-            • CH<sub>3</sub>COO<sup>-</sup> 水解使溶液顯 <b style="color:var(--chalk-yellow);">鹼性</b>。<br>
-            • 大小比較：酸性 HF &gt; CH<sub>3</sub>COOH，鹼性 F<sup>-</sup> &lt; CH<sub>3</sub>COO<sup>-</sup>。
-          </div>
-        </div>
-
-        <div class="note-pill" style="display:block; text-align:center;">
-          📌 展哥口訣：強離子不水解，弱離子必水解！
-        </div>
-      </div>
-
-      <!-- 欄位二：二元酸及其鹽 -->
-      <div class="col-card">
-        <div class="col-title">
-          <span>二、二元酸及其鹽</span>
-          <span style="font-size:0.75rem; opacity:0.8;">硫酸、碳酸、硫化氫</span>
-        </div>
-
-        <div class="section-box">
-          <div class="sub-head">1. 二元酸分段解離與酸性</div>
-          <div class="eq-scroll-wrap">
-            <div class="chem-line">
-              <b>H<sub>2</sub>SO<sub>4</sub></b> 
-              <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a1</sub></span><span class="arrow-line">➔</span></span> 
-              HSO<sub>4</sub><sup>-</sup> 
-              <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a2</sub></span><span class="arrow-line">➔</span></span> 
-              SO<sub>4</sub><sup>2-</sup>
-            </div>
-            <div class="chem-line" style="margin-top:4px;">
-              <b>H<sub>2</sub>CO<sub>3</sub></b> 
-              <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a1</sub></span><span class="arrow-line">➔</span></span> 
-              HCO<sub>3</sub><sup>-</sup> 
-              <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a2</sub></span><span class="arrow-line">➔</span></span> 
-              CO<sub>3</sub><sup>2-</sup>
-            </div>
-            <div class="chem-line" style="margin-top:4px;">
-              <b>H<sub>2</sub>S</b> 
-              <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a1</sub></span><span class="arrow-line">➔</span></span> 
-              HS<sup>-</sup> 
-              <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a2</sub></span><span class="arrow-line">➔</span></span> 
-              S<sup>2-</sup>
-            </div>
-          </div>
-        </div>
-
-        <div class="reaction-box" style="border-left: 3px solid var(--chalk-green);">
-          <div class="sub-head" style="color:var(--chalk-green);">2. 解離常數特性</div>
-          <div style="font-size:0.79rem; line-height:1.5;">
-            • 各階段解離常數恆符合：<br>
-            　<b style="color:var(--chalk-yellow);"> <i>K</i><sub>a1</sub> &gt; <i>K</i><sub>a2</sub> </b><br>
-            • 說明：帶負電離子再釋放質子需克服庫侖靜電引力，故第 2 段解離常數顯著小於第 1 段。
-          </div>
-        </div>
-
-        <div class="note-pill" style="display:block; text-align:center;">
-          💡 展哥提醒：多元酸第2段 Ka 遠小於第 1 段！
-        </div>
-      </div>
-
-      <!-- 欄位三：三元酸及其鹽（磷酸系列） -->
-      <div class="col-card">
-        <div class="col-title">
-          <span>三、三元酸及其鹽</span>
-          <span style="font-size:0.75rem; opacity:0.8;">磷酸 H<sub>3</sub>PO<sub>4</sub> 系列</span>
-        </div>
-
-        <div class="section-box">
-          <div class="sub-head">1. 三元酸分段解離</div>
-          <div style="font-size:0.75rem; line-height:1.6; letter-spacing:-0.3px;">
-            • 恆符合：<i>K</i><sub>a1</sub> &gt; <i>K</i><sub>a2</sub> &gt; <i>K</i><sub>a3</sub><br>
-            <div class="eq-scroll-wrap" style="margin:4px 0;">
-              <div class="chem-line">
-                H<sub>3</sub>PO<sub>4</sub> 
-                <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a1</sub></span><span class="arrow-line">➔</span></span> 
-                H<sub>2</sub>PO<sub>4</sub><sup>-</sup> 
-                <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a2</sub></span><span class="arrow-line">➔</span></span> 
-                HPO<sub>4</sub><sup>2-</sup> 
-                <span class="arrow-container"><span class="ka-label"><i>K</i><sub>a3</sub></span><span class="arrow-line">➔</span></span> 
-                PO<sub>4</sub><sup>3-</sup>
-              </div>
-            </div>
-            • <b>判斷「某氫鹽」酸鹼性法則</b>：<br>
-            　已知 <i>K</i><sub>a1</sub> = 10<sup>-2</sup>，<i>K</i><sub>a2</sub> = 10<sup>-8</sup><br>
-            　<i>K</i><sub>a1</sub> × <i>K</i><sub>a2</sub> &gt; 10<sup>-14</sup> ➔ H<sub>2</sub>PO<sub>4</sub><sup>-</sup> 顯 <span style="color:var(--chalk-cyan);">酸性</span><br>
-            　已知 <i>K</i><sub>a2</sub> = 10<sup>-8</sup>，<i>K</i><sub>a3</sub> = 10<sup>-12</sup><br>
-            　<i>K</i><sub>a2</sub> × <i>K</i><sub>a3</sub> &lt; 10<sup>-14</sup> ➔ HPO<sub>4</sub><sup>2-</sup> 顯 <span style="color:var(--chalk-yellow);">鹼性</span>
-          </div>
-        </div>
-
-        <div class="reaction-box" style="border-left: 3px solid var(--chalk-cyan);">
-          <div class="sub-head" style="color:var(--chalk-cyan);">
-            2. 三元酸酸鹼性遞進
-          </div>
-          <div style="font-size:0.76rem; line-height:1.5;">
-            • H<sub>3</sub>PO<sub>4</sub> 區段：顯酸性<br>
-            • H<sub>2</sub>PO<sub>4</sub><sup>-</sup> 區段：顯酸性<br>
-            • HPO<sub>4</sub><sup>2-</sup> 區段：顯鹼性<br>
-            • PO<sub>4</sub><sup>3-</sup> 區段：顯鹼性
-          </div>
-        </div>
-
-        <div class="note-pill" style="display:block; text-align:center;">
-          📌 展哥口訣：某氫鹽看 Ka 乘積判定酸鹼！
-        </div>
-      </div>
-
-      <!-- 欄位四：其他非多元酸鹽的水解酸鹼性（獨立新段落） -->
-      <div class="col-card">
-        <div class="col-title">
-          <span>四、其他非多元酸鹽水解</span>
-          <span style="font-size:0.75rem; opacity:0.8;">離子水解實戰</span>
-        </div>
-
-        <div class="section-box">
-          <div class="sub-head" style="color:var(--chalk-yellow);">1. 氯化鎂 (MgCl<sub>2</sub>)</div>
-          <div style="font-size:0.76rem; line-height:1.5;">
-            • MgCl<sub>2</sub> = Mg(OH)<sub>2</sub> + HCl<br>
-            　故 Mg<sup>2+</sup> 顯 <span style="color:var(--chalk-cyan);">酸性</span><br>
-            • 反應式：<br>
-            <div style="background:rgba(0,0,0,0.3); padding:3px; border-radius:3px; font-family:monospace; margin-top:2px; color:var(--chalk-green); font-size:0.7rem;">
-              Mg<sup>2+</sup> + H<sub>2</sub>O ⇌ Mg(OH)<sup>+</sup> + H<sup>+</sup>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-box" style="border-left-color: var(--chalk-cyan);">
-          <div class="sub-head" style="color:var(--chalk-cyan);">2. 硝酸銅 (Cu(NO<sub>3</sub>)<sub>2</sub>)</div>
-          <div style="font-size:0.76rem; line-height:1.5;">
-            • Cu(NO<sub>3</sub>)<sub>2</sub> = Cu(OH)<sub>2</sub> + HNO<sub>3</sub><br>
-            　故 Cu<sup>2+</sup> 顯 <span style="color:var(--chalk-cyan);">酸性</span><br>
-            • 反應式：<br>
-            <div style="background:rgba(0,0,0,0.3); padding:3px; border-radius:3px; font-family:monospace; margin-top:2px; color:var(--chalk-green); font-size:0.7rem;">
-              Cu<sup>2+</sup> + H<sub>2</sub>O ⇌ Cu(OH)<sup>+</sup> + H<sup>+</sup>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-box" style="border-left-color: var(--chalk-green);">
-          <div class="sub-head" style="color:var(--chalk-green);">3. 氰化鉀 (KCN)</div>
-          <div style="font-size:0.76rem; line-height:1.5;">
-            • KCN = KOH + HCN<br>
-            　故 CN<sup>-</sup> 顯 <span style="color:var(--chalk-yellow);">鹼性</span><br>
-            • 反應式：<br>
-            <div style="background:rgba(0,0,0,0.3); padding:3px; border-radius:3px; font-family:monospace; margin-top:2px; color:var(--chalk-cyan); font-size:0.7rem;">
-              CN<sup>-</sup> + H<sub>2</sub>O ⇌ HCN + OH<sup>-</sup>
-            </div>
-          </div>
-        </div>
-
-        <div class="note-pill" style="display:block; text-align:center;">
-          📌 展哥筆記：金屬陽離子與非金屬陰離子水解！
-        </div>
-      </div>
-
-      <!-- 欄位五：重要鹽類命名及鹽分類 -->
-      <div class="col-card">
-        <div class="col-title">
-          <span>五、重要鹽類命名與分類</span>
-          <span style="font-size:0.75rem; opacity:0.8;">酸式鹽 vs. 正鹽</span>
-        </div>
-
-        <div class="section-box">
-          <div class="sub-head">1. 磷酸系列 (H<sub>3</sub>PO<sub>4</sub>)</div>
-          <table class="role-table" style="font-size:0.71rem; margin:2px 0;">
-            <tr style="background:rgba(0,0,0,0.4);"><th>化學式</th><th>名稱</th><th>分類</th><th>性質</th></tr>
-            <tr><td>H<sub>3</sub>PO<sub>4</sub></td><td>磷酸</td><td>三元酸</td><td>酸性</td></tr>
-            <tr><td>NaH<sub>2</sub>PO<sub>4</sub></td><td>磷酸二氫鈉</td><td>酸式鹽</td><td><span style="color:var(--chalk-cyan);">酸性</span></td></tr>
-            <tr><td>Na<sub>2</sub>HPO<sub>4</sub></td><td>磷酸氫二鈉</td><td>酸式鹽</td><td><span style="color:var(--chalk-yellow);">鹼性</span></td></tr>
-            <tr><td>Na<sub>3</sub>PO<sub>4</sub></td><td>磷酸鈉</td><td>正鹽</td><td><span style="color:var(--chalk-yellow);">鹼性</span></td></tr>
-          </table>
-        </div>
-
-        <div class="reaction-box" style="border-left: 3px solid var(--chalk-orange); font-size:0.76rem;">
-          <div class="sub-head" style="color:var(--chalk-orange);">2. 亞磷酸與次磷酸系列</div>
-          • <b>亞磷酸 (H<sub>3</sub>PO<sub>3</sub>)</b>：二元酸<br>
-          　Na<sub>2</sub>HPO<sub>3</sub>：亞磷酸氫二鈉 ➔ <b style="color:var(--chalk-yellow);">正鹽</b>（不具酸式鹽性質）<br>
-          • <b>次磷酸 (H<sub>3</sub>PO<sub>2</sub>)</b>：一元酸<br>
-          　NaH<sub>2</sub>PO<sub>2</sub>：次磷酸鈉 ➔ <b style="color:var(--chalk-yellow);">正鹽</b><br>
-          <span style="font-size:0.7rem; color:var(--chalk-cyan);">⚠️ 板書重點：依分子結構中的 P-H 鍵判定可解離 H 數！</span>
-        </div>
-
-        <div class="note-pill" style="display:block; text-align:center;">
-          💡 展哥筆記：亞/次磷酸鈉鹽為正鹽！
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 延伸思維專區 -->
-    <div class="extension-container" style="background: var(--ext-card-bg); border: 2px solid var(--ext-card-border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 2px solid var(--ext-badge-border); padding-bottom: 8px;">
-        <div style="font-size: 1.05rem; font-weight: 900; color: var(--ext-title); display: flex; align-items: center; gap: 8px;">
-          <span>🧠 【展氏新解】延伸思維：某氫鹽水解競爭與磷酸結構特論</span>
-        </div>
-        <span style="font-size: 0.78rem; background: rgba(192,132,252,0.18); border: 1px solid #a855f7; color: var(--ext-title); padding: 2px 8px; border-radius: 20px; font-weight: 800;">某氫鹽水解機制 · 磷酸系列結構</span>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
-        <div style="background: var(--ext-inner-box); border: 1px solid var(--card-border); border-radius: 8px; padding: 11px; font-size: 0.84rem;">
-          <div style="font-weight:800; color:var(--chalk-cyan); font-size:0.9rem; margin-bottom:4px;">
-            📌 A. 為什麼「某氫鹽」的酸鹼性可以由 <i>K</i><sub>a1</sub> × <i>K</i><sub>a2</sub> 與 10<sup>-14</sup> 決定？
-          </div>
-          <p style="font-size:0.81rem; color:var(--text-sub); line-height:1.55;">
-            以二元酸的酸式根 HA<sup>-</sup> 為例，它在水中同時面臨解離 (<i>K</i><sub>a2</sub>) 與水解 (<i>K</i><sub>b</sub> = <i>K</i><sub>w</sub> / <i>K</i><sub>a1</sub>) 的競爭。推導可得 [H<sup>+</sup>] = √(<i>K</i><sub>a1</sub><i>K</i><sub>a2</sub>)。若 <i>K</i><sub>a1</sub><i>K</i><sub>a2</sub> &gt; 10<sup>-14</sup> 顯酸性；反之顯鹼性。
-          </p>
-        </div>
-        <div style="background: var(--ext-inner-box); border: 1px solid var(--card-border); border-radius: 8px; padding: 11px; font-size: 0.84rem;">
-          <div style="font-weight:800; color:var(--chalk-orange); font-size:0.9rem; margin-bottom:4px;">
-            📌 B. 為什麼亞磷酸 (H<sub>3</sub>PO<sub>3</sub>) 與次磷酸 (H<sub>3</sub>PO<sub>2</sub>) 的鈉鹽是正鹽？
-          </div>
-          <p style="font-size:0.81rem; color:var(--text-sub); line-height:1.55;">
-            分子中與磷原子直接以共價鍵結合的氫（P-H 鍵）無法游離出氫離子。亞磷酸含 1 個 P-H 鍵（二元酸）；次磷酸含 2 個 P-H 鍵（一元酸）。因此其對應的鈉鹽中已無可被中和的解離氫，故屬於正鹽而非酸式鹽！
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 頁尾版權 -->
-    <div class="footer">
-      <div>展氏新解 · 鹽的分類與酸鹼性</div>
-      <div class="footer-copyright">© 展氏新解 版權所有</div>
-      <div style="font-size:0.78rem; opacity:0.85; margin-top:4px;">
-        👀 累計點閱：<span id="pageViews" style="color:var(--chalk-yellow); font-weight:bold;">446</span> 次
-      </div>
-    </div>
-
-  </div>
-
-  <!-- 隨堂測驗 Modal -->
-  <div id="quizModal" class="quiz-modal">
-    <div class="quiz-card-container">
-      <div class="quiz-header">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span class="brand-tag">展氏新解</span>
-          <h2 style="font-size:1.15rem; font-weight:900;">鹽的分類與多元酸解離即時檢測系統</h2>
-        </div>
-        <button class="btn" style="background:#dc2626; color:#fff; border:none;" onclick="closeQuiz()">✕ 關閉返回講義</button>
-      </div>
-
-      <div class="quiz-stats-bar">
-        <span>已作答：<b id="answeredCount">0</b> / <span id="totalCount">3</span> 題</span>
-        <span>答對率：<b id="accuracyRate" style="color:var(--chalk-yellow);">0%</b></span>
-        <button class="btn" style="padding:2px 8px; font-size:0.75rem;" onclick="resetQuiz()">🔄 全部重置</button>
-      </div>
-
-      <div id="quizList" style="display:flex; flex-direction:column; gap:12px;"></div>
-    </div>
-  </div>
-
-  <script>
-    const QUESTION_BANK = [
-      {
-        id: 1,
-        level: "某氫鹽酸鹼性判斷",
-        question: "關於「某氫鹽」（酸式鹽）在水溶液中的酸鹼性判斷，下列敘述何者正確？",
-        options: [
-          "A. 所有酸式鹽水溶液一定都顯酸性",
-          "B. 若 Ka1 × Ka2 &gt; 10<sup>-14</sup>，則該酸式根水溶液顯鹼性",
-          "C. 若 Ka1 × Ka2 &lt; 10<sup>-14</sup>，則該酸式根水溶液顯鹼性（如 HPO<sub>4</sub><sup>2-</sup>）",
-          "D. 某氫鹽的酸鹼性與解離常數完全無關，僅取決於金屬離子種類",
-          "E. NaHCO<sub>3</sub> 水溶液顯酸性"
-        ],
-        answer: 2,
-        explanation: "【展氏新解解析】：<br>• 酸式鹽水溶液的酸鹼性取決於解離傾向與水解傾向的競爭。<br>• 若 Ka1 × Ka2 &gt; 10<sup>-14</sup> 顯酸性；若 Ka1 × Ka2 &lt; 10<sup>-14</sup> 顯鹼性（例如 HPO<sub>4</sub><sup>2-</sup>）。<br>• 故選項 C 正確。"
-      },
-      {
-        id: 2,
-        level: "亞磷酸與次磷酸結構特論",
-        question: "下列關於磷酸系列的敘述，何者正確？",
-        options: [
-          "A. 亞磷酸 (H<sub>3</sub>PO<sub>3</sub>) 是一種三元酸",
-          "B. 次磷酸 (H<sub>3</sub>PO<sub>2</sub>) 是一種二元酸",
-          "C. Na<sub>2</sub>HPO<sub>3</sub> 是一種酸式鹽",
-          "D. Na<sub>2</sub>HPO<sub>3</sub> 是一種正鹽，因為亞磷酸是二元酸，分子中含有 P-H 鍵使可解離 H 為 2 個",
-          "E. H<sub>3</sub>PO<sub>4</sub> 的各階段解離常數符合 Ka1 &lt; Ka2 &lt; Ka3"
-        ],
-        answer: 3,
-        explanation: "【展氏新解解析】：<br>• 亞磷酸 (H<sub>3</sub>PO<sub>3</sub>) 是二元酸（含 1 個 P-H 鍵），故 Na<sub>2</sub>HPO<sub>3</sub> 是正鹽而非酸式鹽。<br>• 多元酸解離常數恆符合 Ka1 &gt; Ka2 &gt; Ka3。<br>• 故選項 D 正確。"
-      },
-      {
-        id: 3,
-        level: "離子水解實戰",
-        question: "在 25°C 下，下列哪一種鹽類的水溶液會顯現「酸性」？",
-        options: [
-          "A. KCN",
-          "B. CH<sub>3</sub>COONa",
-          "C. MgCl<sub>2</sub>",
-          "D. NaHCO<sub>3</sub>",
-          "E. Na<sub>2</sub>HPO<sub>4</sub>"
-        ],
-        answer: 2,
-        explanation: "【展氏新解解析】：<br>• KCN 與 CH<sub>3</sub>COONa 為弱酸強鹼鹽，顯鹼性。<br>• MgCl<sub>2</sub> 為強酸弱鹼鹽（金屬離子 Mg<sup>2+</sup> 會發生水解產生 H<sup>+</sup>），水溶液顯酸性。<br>• 故選項 C 正確。"
-      }
-    ];
-
-    const userAnswers = {};
-
-    function renderQuiz() {
-      const container = document.getElementById('quizList');
-      container.innerHTML = '';
-      document.getElementById('totalCount').innerText = QUESTION_BANK.length;
-
-      QUESTION_BANK.forEach((q, idx) => {
-        const qCard = document.createElement('div');
-        qCard.className = 'question-block';
-
-        let optsHtml = q.options.map((opt, optIdx) => `
-          <button class="opt-btn" id="btn_${q.id}_${optIdx}" onclick="selectAnswer(${q.id}, ${optIdx}, ${q.answer})">
-            ${opt}
-          </button>
-        `).join('');
-
-        qCard.innerHTML = `
-          <div>
-            <span class="q-badge">${q.level}</span>
-            <div style="font-weight: 800; font-size: 0.92rem; line-height: 1.5; margin-top: 4px;">第 ${idx + 1} 題：${q.question}</div>
-          </div>
-          <div class="option-list">${optsHtml}</div>
-          <div class="expl-box" id="expl_${q.id}">${q.explanation}</div>
-        `;
-        container.appendChild(qCard);
-      });
-      updateStats();
-    }
-
-    function selectAnswer(qid, selectedIdx, correctIdx) {
-      if (userAnswers[qid] !== undefined) return;
-      userAnswers[qid] = selectedIdx;
-      const q = QUESTION_BANK.find(item => item.id === qid);
-
-      q.options.forEach((_, optIdx) => {
-        const btn = document.getElementById(`btn_${qid}_${optIdx}`);
-        btn.disabled = true;
-        if (optIdx === correctIdx) {
-          btn.classList.add('correct');
-          btn.innerHTML += ' ✓ (正確)';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高二適性單字測驗 (L4-L6)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
         }
-      });
+        .boss-animate {
+            animation: pulse-fast 1s infinite;
+        }
+    </style>
+</head>
+<body id="page-body" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500">
 
-      if (selectedIdx !== correctIdx) {
-        const wrongBtn = document.getElementById(`btn_${qid}_${selectedIdx}`);
-        wrongBtn.classList.add('wrong');
-        wrongBtn.innerHTML += ' ✕ (您的選擇)';
-      }
+    <div class="max-w-xl mx-auto px-4 py-3 w-xl relative">
+        <!-- 頂部區塊：大幅縮小縱向高度 -->
+        <header id="main-header" class="relative flex justify-center items-center mb-3 pt-1">
+            <div class="text-center">
+                <h1 id="main-title" class="text-xl font-bold text-indigo-600 transition-colors duration-500">📝 高二適性單字測驗 (L4-L6)</h1>
+                <p id="main-subtitle" class="text-xs text-slate-500 mt-0.5 transition-colors duration-500">115級真理之門專題生</p>
+            </div>
+            <button id="back-to-setup-btn" type="button" class="hidden absolute right-0 top-0 text-xs bg-white hover:bg-slate-100 text-indigo-600 border border-indigo-200 px-2 py-2 rounded-lg transition font-medium shadow-2xs leading-tight text-center">
+                回<br>首<br>頁
+            </button>
+        </header>
 
-      document.getElementById(`expl_${qid}`).classList.add('show');
-      updateStats();
-    }
+        <!-- 使用者資訊與模式設定區 -->
+        <section id="setup-section" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-4">
+            <h2 class="text-base font-semibold mb-2 text-slate-700">👤 選擇學生與測驗模式</h2>
+            
+            <div class="mb-3">
+                <label class="block text-xs font-medium text-slate-500 mb-1">請選擇您的姓名</label>
+                <select id="student-select" class="w-full border border-slate-200 bg-white rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-700">
+                    <option value="" disabled selected>-- 請先選擇測驗模式與載入紀錄 --</option>
+                </select>
+            </div>
 
-    function updateStats() {
-      const answeredKeys = Object.keys(userAnswers);
-      const answeredCount = answeredKeys.length;
-      document.getElementById('answeredCount').innerText = answeredCount;
+            <div class="mb-2">
+                <label class="block text-xs font-medium text-slate-500 mb-1">選擇測驗模式</label>
+                <div class="grid grid-cols-3 gap-2" id="mode-selector">
+                    <button type="button" data-mode="1" class="mode-btn py-2 px-2 text-xs font-medium rounded-lg border border-indigo-600 bg-indigo-600 text-white transition">模式一<br>【手寫輸入】</button>
+                    <button type="button" data-mode="2" class="mode-btn py-2 px-2 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">模式二<br>【中文選擇】</button>
+                    <button type="button" data-mode="3" class="mode-btn py-2 px-2 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">模式三<br>【英文選擇】</button>
+                </div>
+            </div>
+            <button id="start-btn" class="w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl transition shadow-sm text-sm">開始測驗 / 重新開始</button>
+        </section>
 
-      let correctCount = 0;
-      answeredKeys.forEach(qid => {
-        const q = QUESTION_BANK.find(item => item.id == qid);
-        if (userAnswers[qid] === q.answer) correctCount++;
-      });
+        <!-- 答題主畫面 -->
+        <main id="quiz-section" class="hidden bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-4 transition-colors duration-500">
+            <div id="progress-card" class="bg-slate-100 p-2.5 rounded-xl mb-4 transition-colors">
+                <div class="flex justify-between items-center mb-1.5">
+                    <span id="progress-round-text" class="text-xs font-semibold text-slate-600 transition-colors duration-500">🎯 第 1 關 (總第 1 題)</span>
+                    <span id="progress-count-text" class="text-xs font-semibold text-slate-600 transition-colors duration-500">進度：1 / 5</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
+                </div>
+            </div>
 
-      const rate = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
-      document.getElementById('accuracyRate').innerText = rate + '%';
-    }
+            <div class="mb-4">
+                <!-- 句內嵌入挖空區塊 -->
+                <div id="question-container" class="text-base font-bold text-slate-800 mb-2.5 leading-relaxed transition-colors duration-500">
+                    <span id="question-prefix">Q1. </span>
+                    <span id="cloze-word-target" class="cursor-pointer text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 hover:bg-indigo-100 transition inline-block my-0.5" title="點擊顯示/隱藏完整單字">r_______e</span>
+                    <span id="question-suffix"> with her new hairstyle.</span>
+                </div>
+                
+                <div class="mb-3">
+                    <button id="toggle-hint-btn" type="button" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-lg transition font-medium inline-flex items-center gap-1">
+                        💡 顯示中文提示
+                    </button>
+                    <div id="question-sub" class="text-xs text-slate-500 mt-1.5 hidden bg-slate-50 p-2.5 rounded-xl border border-slate-100"></div>
+                </div>
 
-    function resetQuiz() {
-      Object.keys(userAnswers).forEach(key => delete userAnswers[key]);
-      renderQuiz();
-    }
+                <!-- 模式一：手寫輸入 -->
+                <div id="input-mode-container" class="space-y-2">
+                    <input type="text" id="user-answer-input" autocomplete="off" placeholder="請輸入英文單字..." class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-800">
+                    <button id="submit-input-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl transition shadow-sm text-sm">送出答案</button>
+                </div>
 
-    function openQuiz() {
-      document.getElementById('quizModal').classList.add('active');
-      renderQuiz();
-    }
+                <div id="choice-mode-container" class="space-y-2 hidden"></div>
 
-    function closeQuiz() {
-      document.getElementById('quizModal').classList.remove('active');
-    }
+                <div id="feedback-area" class="mt-3 text-xs font-semibold hidden"></div>
+            </div>
 
-    function toggleTheme() {
-      document.body.classList.toggle('theme-paper');
-    }
+            <button id="next-btn" class="hidden w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl transition shadow-sm text-sm">下一題</button>
+        </main>
 
-    function toggleCloze() {
-      document.body.classList.toggle('cloze-mode');
-      document.querySelectorAll('.cloze').forEach(el => el.classList.remove('revealed'));
-    }
+        <!-- 結算畫面 -->
+        <section id="result-section" class="hidden bg-white p-5 rounded-2xl shadow-sm border border-slate-100 text-center mb-4">
+            <h2 id="result-title" class="text-xl font-bold text-slate-800 mb-2">🎉 測驗結算</h2>
+            <div class="space-y-1.5 my-4 text-slate-600 text-sm">
+                <p>學生姓名：<span id="res-student" class="font-bold text-indigo-600">-</span></p>
+                <p>總答題數：<span id="res-total" class="font-bold text-slate-800">0</span></p>
+                <p>正確題數：<span id="res-correct" class="font-bold text-emerald-600">0</span></p>
+                <p class="text-base font-semibold">正確率：<span id="res-acc" class="text-indigo-600">0.0%</span></p>
+            </div>
+            <div id="continue-container" class="mb-2 hidden">
+                <button id="continue-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-xl transition shadow-sm mb-2 text-sm">繼續挑戰下一關（不重複已考過題目）</button>
+            </div>
+            <button id="restart-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl transition shadow-sm text-sm">重新開始</button>
+        </section>
 
-    document.addEventListener('click', function(e) {
-      if (!document.body.classList.contains('cloze-mode')) return;
-      const clozeTarget = e.target.closest('.cloze');
-      if (clozeTarget) {
-        e.stopPropagation();
-        clozeTarget.classList.toggle('revealed');
-      }
-    });
+        <!-- 恭喜破關滿版特效覆蓋層 -->
+        <div id="victory-overlay" class="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center hidden text-center p-6">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-amber-400 mb-4 animate-bounce tracking-wider">🏆 恭喜破關！ 🏆</h1>
+            <p class="text-lg md:text-xl text-white mb-6">太神啦！您已成功擊敗所有大魔王關卡！</p>
+            <button id="victory-close-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white text-base font-bold px-6 py-3 rounded-2xl shadow-lg transition">返回首頁</button>
+        </div>
 
-    renderQuiz();
-  </script>
+        <!-- 錯題集專區 -->
+        <section id="wrongbook-section" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-4 transition-colors duration-500">
+            <h3 id="wrongbook-title" class="font-semibold text-slate-700 mb-2 flex items-center justify-between text-sm transition-colors duration-500">
+                <span>📘 本次錯題集 (Wrong-book)</span>
+                <span id="wrong-count-badge" class="text-xs bg-rose-100 text-rose-600 px-2 py-0.5 rounded-full">0 題</span>
+            </h3>
+            <div id="wrongbook-list" class="space-y-1.5 text-xs text-slate-500">
+                <p class="text-slate-400 italic">目前沒有錯題記錄。</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- 頁尾 -->
+    <footer id="page-footer" class="text-center py-3 text-xs text-slate-400 transition-colors duration-500">
+        高二適性單字測驗 (L4-L6) &copy; 2026 - 115級真理之門專題生
+    </footer>
+
+    <!-- 題庫與前端邏輯 -->
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1nwYtSkWYSelXfdq9SgQFCxaO_eR2EHpKDNCfMITTzUyLahxOu_PCqn71U7suBitgHQ/exec";
+        
+        const STUDENT_NAMES = [
+            "黃勤展", "詹子葶", "張棨翔", "陳廷宥", "張翔凱", "項怡瑄", "夏翌眒", "朱恩萭", "張幼昕", 
+            "林宸楷", "李曜晴", "張雯芯", "陳予彤", "施泓宇", "劉定穎", "張琦紜", 
+            "張晉維", "陳楚弦", "何彥澄", "陳柏亨"
+        ];
+
+        let cloudRecords = {};
+        let currentMode = "1";
+        let currentMatchedWord = "";
+
+        async function fetchCloudRecords() {
+            try {
+                let res = await fetch(SCRIPT_URL);
+                cloudRecords = await res.json();
+            } catch (e) {
+                console.log("無法取得雲端紀錄，使用預設選單");
+            }
+            renderStudentSelect();
+        }
+
+        function renderStudentSelect() {
+            let select = document.getElementById('student-select');
+            let currentSelectedVal = select.value;
+            select.innerHTML = `<option value="" disabled selected>-- 請點選您的名字 --</option>`;
+            
+            STUDENT_NAMES.forEach(name => {
+                let studentData = cloudRecords[name] || {};
+                let modeRec = studentData[currentMode];
+                let label = name;
+                if (modeRec && modeRec.max_level > 0) {
+                    label += ` (最高第${modeRec.max_level}關,對${modeRec.max_correct}題)`;
+                }
+                let opt = document.createElement('option');
+                opt.value = name;
+                opt.innerText = label;
+                select.appendChild(opt);
+            });
+            select.value = currentSelectedVal;
+        }
+
+        function syncScoreToCloud(student, level, correct) {
+            let payload = { student: student, mode: currentMode, level: level, correct: correct };
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                if (!cloudRecords[student]) cloudRecords[student] = {};
+                let modeRec = cloudRecords[student][currentMode];
+                if (!modeRec || level > modeRec.max_level || (level === modeRec.max_level && correct > modeRec.max_correct)) {
+                    cloudRecords[student][currentMode] = { max_level: level, max_correct: correct };
+                    renderStudentSelect();
+                }
+            }).catch(err => console.log("同步失敗", err));
+        }
+
+        window.onload = function() {
+            fetchCloudRecords();
+        };
+
+        const QUESTION_BANK = [
+            { "answer_en": "accompany", "meaning_zh": "陪伴", "sent_en": "Good books can accompany you throughout your life.", "sent_zh": "好書可以陪伴你度過一生。" },
+            { "answer_en": "adapt", "meaning_zh": "使…適應；改編", "sent_en": "It takes time to adapt to a new environment.", "sent_zh": "適應新環境需要時間。" },
+            { "answer_en": "adaptation", "meaning_zh": "適應；改編", "sent_en": "The film is an adaptation of a famous novel.", "sent_zh": "這部電影是根據著名小說改編的。" },
+            { "answer_en": "annual", "meaning_zh": "每年的", "sent_en": "The company holds an annual meeting in December.", "sent_zh": "公司在十二月舉行年會。" },
+            { "answer_en": "anticipate", "meaning_zh": "期盼；預期", "sent_en": "We anticipate a large crowd at the concert.", "sent_zh": "我們預期音樂會會有大批人潮。" },
+            { "answer_en": "anticipation", "meaning_zh": "預料；期待", "sent_en": "She waited for the news with great anticipation.", "sent_zh": "她懷著極大的期待等待著消息。" },
+            { "answer_en": "appear", "meaning_zh": "出現", "sent_en": "A rainbow began to appear in the sky.", "sent_zh": "天空中開始出現彩虹。" },
+            { "answer_en": "appearance", "meaning_zh": "外表；露面", "sent_en": "First impressions are often based on appearance.", "sent_zh": "第一印象往往基於外表。" },
+            { "answer_en": "arrival", "meaning_zh": "到達", "sent_en": "We waited for the arrival of the train.", "sent_zh": "我們等待火車的到來。" },
+            { "answer_en": "await", "meaning_zh": "等待", "sent_en": "A warm welcome awaits you there.", "sent_zh": "那裡有熱烈的歡迎在等著你。" },
+            { "answer_en": "awe", "meaning_zh": "敬畏", "sent_en": "We looked at the grand mountains in awe.", "sent_zh": "我們敬畏地看著雄偉的高山。" },
+            { "answer_en": "blossom", "meaning_zh": "花朵；開花", "sent_en": "Cherry trees blossom in the spring.", "sent_zh": "櫻花在春天開花。" },
+            { "answer_en": "boast", "meaning_zh": "以…為傲；擁有", "sent_en": "The city can boast of many historic buildings.", "sent_zh": "這座城市擁有許多歷史建築引以為傲。" },
+            { "answer_en": "breathtaking", "meaning_zh": "驚人的；極美麗的", "sent_en": "The view from the top of the mountain was breathtaking.", "sent_zh": "山頂上的景色美得令人屏息。" },
+            { "answer_en": "bruise", "meaning_zh": "使出現瘀傷；撞傷", "sent_en": "He fell off his bike and got a bruise on his leg.", "sent_zh": "他從腳踏車上摔下來，腿上出現了瘀傷。" },
+            { "answer_en": "capital", "meaning_zh": "首都；資本、資金", "sent_en": "Paris is the capital of France.", "sent_zh": "巴黎是法國的首都。" },
+            { "answer_en": "cling", "meaning_zh": "抓緊；緊握", "sent_en": "The frightened child began to cling to his mother.", "sent_zh": "受驚的孩子開始緊緊抓住他的母親。" },
+            { "answer_en": "clingy", "meaning_zh": "依賴性強的；黏人的", "sent_en": "The puppy was very clingy and followed her everywhere.", "sent_zh": "這隻小狗非常黏人，走到哪裡都跟著她。" },
+            { "answer_en": "company", "meaning_zh": "陪伴；公司", "sent_en": "Thank you for your pleasant company.", "sent_zh": "謝謝你愉快的陪伴。" },
+            { "answer_en": "concept", "meaning_zh": "概念", "sent_en": "It is hard to grasp the concept of infinity.", "sent_zh": "無限的概念很難理解。" },
+            { "answer_en": "confront", "meaning_zh": "面臨；面對；克服", "sent_en": "We must confront our fears.", "sent_zh": "我們必須勇敢面對心中的恐懼。" },
+            { "answer_en": "confrontation", "meaning_zh": "衝突；對抗", "sent_en": "They tried to avoid a direct confrontation.", "sent_zh": "他們試圖避免正面衝突。" },
+            { "answer_en": "confrontational", "meaning_zh": "挑起衝突的；咄咄逼人的", "sent_en": "His tone was aggressive and confrontational.", "sent_zh": "他的語氣充滿侵略性和對立感。" },
+            { "answer_en": "crop", "meaning_zh": "作物；莊稼；修剪", "sent_en": "Farmers are busy harvesting their crops.", "sent_zh": "農夫們正忙著收割農作物。" },
+            { "answer_en": "cycle", "meaning_zh": "循環", "sent_en": "The water cycle is essential for life on Earth.", "sent_zh": "水循環對地球上的生命至關重要。" },
+            { "answer_en": "dawn", "meaning_zh": "黎明；破曉；開端", "sent_en": "We started our journey at dawn.", "sent_zh": "我們在黎明時分啟程。" },
+            { "answer_en": "decorate", "meaning_zh": "裝飾", "sent_en": "They decorate the house with lights for Christmas.", "sent_zh": "他們用燈飾把房子裝扮起來過耶誕節。" },
+            { "answer_en": "decoration", "meaning_zh": "裝飾品", "sent_en": "The Christmas tree was covered with colorful decorations.", "sent_zh": "聖誕樹上掛滿了色彩繽紛的裝飾品。" },
+            { "answer_en": "deliberate", "meaning_zh": "小心翼翼的；有意的", "sent_en": "The decision was a deliberate attempt to mislead us.", "sent_zh": "這個決定是有意要誤導我們。" },
+            { "answer_en": "delicacy", "meaning_zh": "纖細；精美；佳餚", "sent_en": "Local seafood is considered a delicacy here.", "sent_zh": "當地海鮮在這裡被視為美味佳餚。" },
+            { "answer_en": "delicate", "meaning_zh": "精美的；纖細的", "sent_en": "She wore a delicate silver necklace.", "sent_zh": "她戴著一條精緻的銀項鍊。" },
+            { "answer_en": "destination", "meaning_zh": "目的地", "sent_en": "We finally reached our destination after a long drive.", "sent_zh": "經過長時間的車程，我們終於抵達目的地。" },
+            { "answer_en": "dilemma", "meaning_zh": "進退兩難的困境", "sent_en": "She faced a moral dilemma.", "sent_zh": "她面臨著一場道德上的困境。" },
+            { "answer_en": "distinct", "meaning_zh": "顯著的；明顯的", "sent_en": "There is a distinct smell of gas in the kitchen.", "sent_zh": "廚房裡有一股明顯的瓦斯味。" },
+            { "answer_en": "distinction", "meaning_zh": "差別", "sent_en": "It is important to make a distinction between the two.", "sent_zh": "釐清兩者之間的區別是很重要的。" },
+            { "answer_en": "distinctive", "meaning_zh": "獨特的", "sent_en": "The bird has a distinctive red crest.", "sent_zh": "這種鳥擁有獨特的紅色冠羽。" },
+            { "answer_en": "elegant", "meaning_zh": "雅致的；舉止優雅的", "sent_en": "She wore an elegant dress to the party.", "sent_zh": "她穿了一件優雅的洋裝去參加派對。" },
+            { "answer_en": "elegance", "meaning_zh": "優雅", "sent_en": "The hotel room was decorated with style and elegance.", "sent_zh": "飯店房間佈置得充滿品味與優雅。" },
+            { "answer_en": "entrance", "meaning_zh": "大門；入口", "sent_en": "Meet me at the main entrance of the museum.", "sent_zh": "在博物館的正門口見面。" },
+            { "answer_en": "envision", "meaning_zh": "想像；嚮往", "sent_en": "I can envision a bright future for our project.", "sent_zh": "我可以預見我們專案的光明未來。" },
+            { "answer_en": "escape", "meaning_zh": "避免；逃跑；規避", "sent_en": "The prisoner managed to escape from jail.", "sent_zh": "那名囚犯設法越獄逃跑了。" },
+            { "answer_en": "essential", "meaning_zh": "本質的；基本的；必要的", "sent_en": "Water is essential for all living things.", "sent_zh": "水是所有生物生存所必需的。" },
+            { "answer_en": "feast", "meaning_zh": "盡情享用；宴會", "sent_en": "We prepared a grand feast for the guests.", "sent_zh": "我們為賓客準備了一場豐盛的宴會。" },
+            { "answer_en": "flee", "meaning_zh": "逃離；逃跑", "sent_en": "Many people had to flee their homes due to the war.", "sent_zh": "許多人因為戰爭不得不逃離家園。" },
+            { "answer_en": "gaze", "meaning_zh": "凝視；注視", "sent_en": "He stood by the window, deep in gaze.", "sent_zh": "他站在窗邊陷入凝視。" },
+            { "answer_en": "historian", "meaning_zh": "歷史學家", "sent_en": "The historian studied ancient documents.", "sent_zh": "這位歷史學家研究了古代文獻。" },
+            { "answer_en": "historic", "meaning_zh": "歷史悠久的；史上著名的", "sent_en": "This is a historic moment for our country.", "sent_zh": "這對我們的國家來說是個歷史性的時刻。" },
+            { "answer_en": "historical", "meaning_zh": "歷史的", "sent_en": "The movie is based on historical events.", "sent_zh": "這部電影是根據歷史事件改編的。" },
+            { "answer_en": "inevitable", "meaning_zh": "不可避免的", "sent_en": "Change is an inevitable part of life.", "sent_zh": "改變是生活中不可避免的一部分。" },
+            { "answer_en": "intimacy", "meaning_zh": "密切；親密", "sent_en": "They share a deep emotional intimacy.", "sent_zh": "他們分享著深厚的情感親密感。" },
+            { "answer_en": "intimate", "meaning_zh": "密切的；舒適的；私人的", "sent_en": "They had an intimate dinner at home.", "sent_zh": "他們在家裡吃了一頓溫馨的私人晚餐。" },
+            { "answer_en": "intimately", "meaning_zh": "瞭如指掌地；密切地", "sent_en": "She knows the local culture intimately.", "sent_zh": "她對當地文化瞭如指掌。" },
+            { "answer_en": "joyous", "meaning_zh": "令人愉快的", "sent_en": "It was a joyous occasion for the family.", "sent_zh": "對這個家庭來說，這是一個歡樂的時刻。" },
+            { "answer_en": "landscape", "meaning_zh": "景色；風景", "sent_en": "The winter landscape looked like a fairytale.", "sent_zh": "冬日的景色看起來像童話故事一樣。" },
+            { "answer_en": "leisure", "meaning_zh": "閒暇", "sent_en": "I like to read books in my leisure time.", "sent_zh": "我喜歡在閒暇時間看書。" },
+            { "answer_en": "leisurely", "meaning_zh": "悠閒的", "sent_en": "We took a leisurely walk along the river.", "sent_zh": "我們沿著河畔悠閒地散步。" },
+            { "answer_en": "literary", "meaning_zh": "文學的；文藝的", "sent_en": "She has a great interest in literary works.", "sent_zh": "她對文學作品有著濃厚的興趣。" },
+            { "answer_en": "literature", "meaning_zh": "文學；文學作品；文獻", "sent_en": "English literature includes many famous plays.", "sent_zh": "英國文學包含了許多著名的戲劇。" },
+            { "answer_en": "magnificent", "meaning_zh": "壯麗的；雄偉的", "sent_en": "The palace has a magnificent garden.", "sent_zh": "這座宮殿有一個壯麗的花園。" },
+            { "answer_en": "mock", "meaning_zh": "嘲弄；虛假的；模擬的", "sent_en": "It was only a mock exam before the real test.", "sent_zh": "這只是正式考試前的模擬考。" },
+            { "answer_en": "mourn", "meaning_zh": "哀悼", "sent_en": "The whole town gathered to mourn the loss.", "sent_zh": "全鎮的人聚集在一起哀悼這場損失。" },
+            { "answer_en": "mournful", "meaning_zh": "悲傷的", "sent_en": "A mournful song played in the background.", "sent_zh": "背景音樂播放著一首悲傷的歌曲。" },
+            { "answer_en": "navigate", "meaning_zh": "確認方向；航行；處理問題", "sent_en": "Sailors use stars to navigate at night.", "sent_zh": "水手們利用星星在夜間導航。" },
+            { "answer_en": "navigation", "meaning_zh": "航行；導航", "sent_en": "Modern cars are equipped with GPS navigation systems.", "sent_zh": "現代汽車都配備了GPS導航系統。" },
+            { "answer_en": "nevertheless", "meaning_zh": "儘管如此；然而", "sent_en": "The weather was cold; nevertheless, we went out.", "sent_zh": "天氣很冷；儘管如此，我們還是出去了。" },
+            { "answer_en": "nonetheless", "meaning_zh": "儘管如此；然而", "sent_en": "The task was difficult, but she completed it nonetheless.", "sent_zh": "任務很艱鉅，但她儘管如此還是完成了。" },
+            { "answer_en": "occasion", "meaning_zh": "場合", "sent_en": "We dressed up for the special occasion.", "sent_zh": "我們為這個特別的場合盛裝打扮。" },
+            { "answer_en": "occasional", "meaning_zh": "偶爾的", "sent_en": "We make occasional trips to the city.", "sent_zh": "我們偶爾會去那座城市。" },
+            { "answer_en": "oppose", "meaning_zh": "反對；反抗", "sent_en": "Many citizens oppose the new tax law.", "sent_zh": "許多市民反對這項新稅法。" },
+            { "answer_en": "opposite", "meaning_zh": "相反的；對面的；對立的", "sent_en": "My house is opposite the post office.", "sent_zh": "我家在郵局的對面。" },
+            { "answer_en": "opposition", "meaning_zh": "反對；對抗", "sent_en": "The plan met with fierce opposition.", "sent_zh": "這項計劃遭到激烈的反對。" },
+            { "answer_en": "outsider", "meaning_zh": "外人；外來者", "sent_en": "As an outsider, it was hard to understand their traditions.", "sent_zh": "作為一個外來者，很難理解他們的傳統。" },
+            { "answer_en": "participate", "meaning_zh": "參加", "sent_en": "All students are encouraged to participate in sports.", "sent_zh": "鼓勵所有學生參加體育活動。" },
+            { "answer_en": "participation", "meaning_zh": "參加", "sent_en": "Thank you for your active participation.", "sent_zh": "謝謝您的熱情參與。" },
+            { "answer_en": "path", "meaning_zh": "小路；途徑", "sent_en": "A narrow path led through the woods.", "sent_zh": "一條小徑穿過樹林。" },
+            { "answer_en": "peculiar", "meaning_zh": "奇怪的；不尋常的", "sent_en": "I noticed a peculiar smell coming from the basement.", "sent_zh": "我注意到地下室傳來一股奇怪的味道。" },
+            { "answer_en": "pity", "meaning_zh": "憐憫；同情", "sent_en": "It is a great pity that you missed the party.", "sent_zh": "很可惜你錯過了這個派對。" },
+            { "answer_en": "prefer", "meaning_zh": "偏愛A勝過B", "sent_en": "I prefer tea to coffee.", "sent_zh": "比起咖啡我更喜歡茶。" },
+            { "answer_en": "preference", "meaning_zh": "偏愛", "sent_en": "Do you have a preference for red or white wine?", "sent_zh": "你比較偏好紅酒還是白酒？" },
+            { "answer_en": "previous", "meaning_zh": "先前的", "sent_en": "I have no knowledge of previous events.", "sent_zh": "我對先前發生的事情一無所知。" },
+            { "answer_en": "previously", "meaning_zh": "先前地", "sent_en": "She had previously worked as a teacher.", "sent_zh": "她先前曾擔任過老師。" },
+            { "answer_en": "reception", "meaning_zh": "歡迎；接待", "sent_en": "We received a warm reception at the hotel.", "sent_zh": "我們在飯店受到了熱情的接待。" },
+            { "answer_en": "receptionist", "meaning_zh": "接待員", "sent_en": "The receptionist greeted us with a smile.", "sent_zh": "接待員面帶微笑地迎接我們。" },
+            { "answer_en": "recognition", "meaning_zh": "承認；認可", "sent_en": "He received an award in recognition of his service.", "sent_zh": "他因服務表現獲得表揚與認可。" },
+            { "answer_en": "recognize", "meaning_zh": "承認；意識到；認出", "sent_en": "I didn't recognize her with her new hairstyle.", "sent_zh": "她換了新髮型，我差點認不出她來。" },
+            { "answer_en": "resemblance", "meaning_zh": "相似；相像", "sent_en": "There is a strong family resemblance between them.", "sent_zh": "他們家族成員之間有強烈的相像之處。" },
+            { "answer_en": "resemble", "meaning_zh": "看起來像", "sent_en": "The twins resemble each other closely.", "sent_zh": "這對雙胞胎長得很像。" },
+            { "answer_en": "reunion", "meaning_zh": "重逢；團聚", "sent_en": "We had a family reunion during the holiday.", "sent_zh": "我們在假期中舉辦了家庭團聚。" },
+            { "answer_en": "reunite", "meaning_zh": "重逢；團聚", "sent_en": "The lost dog was finally reunited with its owner.", "sent_zh": "走失的小狗終於和主人團聚了。" },
+            { "answer_en": "rustle", "meaning_zh": "沙沙作響", "sent_en": "Leaves rustle in the autumn wind.", "sent_zh": "落葉在秋風中沙沙作響。" },
+            { "answer_en": "skillful", "meaning_zh": "熟練的", "sent_en": "She is a skillful pianist.", "sent_zh": "她是一位熟練的鋼琴家。" },
+            { "answer_en": "skillfully", "meaning_zh": "熟練地", "sent_en": "He skillfully repaired the old watch.", "sent_zh": "他熟練地修好了那隻舊手錶。" },
+            { "answer_en": "slope", "meaning_zh": "斜坡；坡地", "sent_en": "We went skiing down the snowy slope.", "sent_zh": "我們滑雪順著雪坡滑下來。" },
+            { "answer_en": "smooth", "meaning_zh": "平滑的；平整的", "sent_en": "The surface of the lake was calm and smooth.", "sent_zh": "湖面平靜而光滑。" },
+            { "answer_en": "smoothness", "meaning_zh": "平滑；細緻", "sent_en": "I love the smoothness of this silk fabric.", "sent_zh": "我喜歡這款絲綢布料的細緻感。" },
+            { "answer_en": "sorrow", "meaning_zh": "悲傷", "sent_en": "She could not hide her sorrow over the loss.", "sent_zh": "她無法掩飾失去至親的悲傷。" },
+            { "answer_en": "sorrowful", "meaning_zh": "悲傷的", "sent_en": "He gave a sorrowful sigh.", "sent_zh": "他發出一聲悲傷的嘆息。" },
+            { "answer_en": "splendid", "meaning_zh": "壯麗的；非常好的", "sent_en": "We had a splendid time at the beach.", "sent_zh": "我們在海灘度過了一段美好的時光。" },
+            { "answer_en": "splendor", "meaning_zh": "雄偉", "sent_en": "The palace was restored to its former splendor.", "sent_zh": "這座宮殿被修復回了昔日的雄偉風貌。" },
+            { "answer_en": "stunning", "meaning_zh": "感動人心的", "sent_en": "She looked stunning in her new dress.", "sent_zh": "她穿著新洋裝看起來驚豔動人。" },
+            { "answer_en": "stun", "meaning_zh": "使…驚訝", "sent_en": "The sudden news began to stun everyone.", "sent_zh": "突如其來的消息讓每個人都大吃一驚。" },
+            { "answer_en": "superior", "meaning_zh": "優於…；上司", "sent_en": "This material is superior in quality.", "sent_zh": "這種材料在品質上更為優越。" },
+            { "answer_en": "superiority", "meaning_zh": "優越；優勢", "sent_en": "He felt a sense of superiority over others.", "sent_zh": "她對其他人有一種優越感。" },
+            { "answer_en": "transform", "meaning_zh": "使改變型態", "sent_en": "Technology continues to transform our lives.", "sent_zh": "科技持續改變著我們的生活型態。" },
+            { "answer_en": "transformation", "meaning_zh": "轉變", "sent_en": "The city has undergone a massive transformation.", "sent_zh": "這座城市經歷了巨大的轉變。" },
+            { "answer_en": "tumble", "meaning_zh": "滾落；倒塌；暴跌", "sent_en": "He tripped and took a tumble down the stairs.", "sent_zh": "他絆倒並從樓梯上滾了下來。" },
+            { "answer_en": "twinkle", "meaning_zh": "閃耀；閃爍", "sent_en": "Stars twinkle in the clear night sky.", "sent_zh": "星星在晴朗的夜空中閃爍著。" }
+        ];
+
+        let globalQuestionIndex = 0;
+        let scoreInCurrentRound = 0;
+        let records = [];
+        let wrongbook = {};
+        let isSubmitted = false;
+        let isWordRevealed = false;
+        let currentStudent = "";
+        let shuffledBank = [];
+
+        function levenshtein(a, b) {
+            if (a.length < b.length) return levenshtein(b, a);
+            if (b.length === 0) return a.length;
+            let prev = Array.from({length: b.length + 1}, (_, i) => i);
+            for (let i = 0; i < a.length; i++) {
+                let curr = [i + 1];
+                for (let j = 0; j < b.length; j++) {
+                    curr.push(Math.min(prev[j + 1] + 1, curr[j] + 1, prev[j] + (a[i] !== b[j])));
+                }
+                prev = curr;
+            }
+            return prev[prev.length - 1];
+        }
+
+        function getPos(word) {
+            let w = word.toLowerCase();
+            if (w.endsWith("able") || w.endsWith("ible") || w.endsWith("al") || w.endsWith("ful") || w.endsWith("ic") || w.endsWith("ive") || w.endsWith("less") || w.endsWith("ous")) return "adj";
+            if (w.endsWith("ly")) return "adv";
+            if (w.endsWith("ate") || w.endsWith("en") || w.endsWith("ify") || w.endsWith("ise") || w.endsWith("ize") || w.endsWith("ed") || w.endsWith("ing")) return "verb";
+            if (w.endsWith("tion") || w.endsWith("sion") || w.endsWith("ment") || w.endsWith("ness") || w.endsWith("ity") || w.endsWith("er") || w.endsWith("or") || w.endsWith("ism") || w.endsWith("ist") || w.endsWith("ship") || w.endsWith("s")) return "noun";
+            return "other";
+        }
+
+        function getSmartDistractors(word, meaningZh, k = 3) {
+            let cands = new Set();
+            let usedMeanings = new Set([meaningZh]);
+
+            QUESTION_BANK.forEach(it => {
+                if (it.answer_en !== word && !usedMeanings.has(it.meaning_zh) && levenshtein(word, it.answer_en) <= 3) {
+                    cands.add(it.answer_en);
+                    usedMeanings.add(it.meaning_zh);
+                }
+            });
+            let pos = getPos(word);
+            QUESTION_BANK.forEach(it => {
+                if (it.answer_en !== word && !usedMeanings.has(it.meaning_zh) && getPos(it.answer_en) === pos) {
+                    cands.add(it.answer_en);
+                    usedMeanings.add(it.meaning_zh);
+                }
+            });
+            if (meaningZh) {
+                let head = meaningZh.slice(0, 1);
+                QUESTION_BANK.forEach(it => {
+                    if (it.answer_en !== word && !usedMeanings.has(it.meaning_zh) && it.meaning_zh.startsWith(head)) {
+                        cands.add(it.answer_en);
+                        usedMeanings.add(it.meaning_zh);
+                    }
+                });
+            }
+
+            let candsArr = Array.from(cands);
+            if (candsArr.length < k) {
+                let pool = QUESTION_BANK.filter(it => it.answer_en !== word && !usedMeanings.has(it.meaning_zh)).map(it => it.answer_en);
+                pool.sort(() => Math.random() - 0.5);
+                for (let p of pool) {
+                    if (!candsArr.includes(p) && candsArr.length < k) {
+                        let foundItem = QUESTION_BANK.find(it => it.answer_en === p);
+                        if (foundItem && !usedMeanings.has(foundItem.meaning_zh)) {
+                            candsArr.push(p);
+                            usedMeanings.add(foundItem.meaning_zh);
+                        }
+                    }
+                }
+            }
+            candsArr.sort(() => Math.random() - 0.5);
+            return candsArr.slice(0, k);
+        }
+
+        function findMatchedWordInSentence(sent, baseWord) {
+            let words = sent.match(/\b[a-zA-Z]+\b/g) || [];
+            for (let w of words) {
+                if (w.toLowerCase() === baseWord.toLowerCase()) return w;
+            }
+            for (let w of words) {
+                if (w.toLowerCase().startsWith(baseWord.toLowerCase())) return w;
+            }
+            return baseWord;
+        }
+
+        function initQuiz() {
+            let studentSelect = document.getElementById('student-select');
+            currentStudent = studentSelect.value;
+            if (!currentStudent) {
+                alert("請先下拉選擇您的姓名！");
+                return;
+            }
+
+            shuffledBank = [...QUESTION_BANK];
+            shuffledBank.sort(() => Math.random() - 0.5);
+
+            globalQuestionIndex = 0;
+            records = [];
+            wrongbook = {};
+            startNewRound();
+        }
+
+        function startNewRound() {
+            scoreInCurrentRound = 0;
+            isSubmitted = false;
+            
+            document.getElementById('setup-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            document.getElementById('back-to-setup-btn').classList.remove('hidden');
+            
+            loadQuestion();
+        }
+
+        function makeClozeWord(word, mode) {
+            if (mode === "3") {
+                return "_".repeat(word.length);
+            }
+            if (word.length <= 2) {
+                return "_".repeat(word.length);
+            }
+            let first = word[0];
+            let last = word[word.length - 1];
+            let middleUnderscores = "_".repeat(word.length - 2);
+            return first + middleUnderscores + last;
+        }
+
+        function applyBossTheme(currentQNum) {
+            let body = document.getElementById('page-body');
+            let quizCard = document.getElementById('quiz-section');
+            let progressCard = document.getElementById('progress-card');
+            let mainTitle = document.getElementById('main-title');
+            let mainSubtitle = document.getElementById('main-subtitle');
+            let questionContainer = document.getElementById('question-container');
+            let wrongbookSection = document.getElementById('wrongbook-section');
+            let wrongbookTitle = document.getElementById('wrongbook-title');
+            let footer = document.getElementById('page-footer');
+
+            if (currentQNum >= 31) {
+                let themes = [
+                    { bg: "bg-zinc-900", card: "bg-zinc-800 text-zinc-100 border-red-900 shadow-red-900/50 shadow-lg", prog: "bg-zinc-700 text-zinc-200", title: "text-red-500 boss-animate", qText: "text-zinc-100", wb: "bg-zinc-800 border-zinc-700 text-zinc-200", wbt: "text-zinc-200" },
+                    { bg: "bg-purple-950", card: "bg-purple-900/90 text-purple-100 border-purple-500 shadow-purple-500/50 shadow-lg", prog: "bg-purple-900 text-purple-200", title: "text-amber-400 boss-animate", qText: "text-purple-100", wb: "bg-purple-900/90 border-purple-700 text-purple-100", wbt: "text-purple-200" },
+                    { bg: "bg-stone-900", card: "bg-stone-800 text-amber-100 border-amber-600 shadow-amber-600/40 shadow-lg", prog: "bg-stone-700 text-stone-200", title: "text-amber-500 boss-animate", qText: "text-amber-100", wb: "bg-stone-800 border-stone-700 text-amber-100", wbt: "text-amber-200" }
+                ];
+                let chosenTheme = themes[Math.floor(Math.random() * themes.length)];
+
+                body.className = `${chosenTheme.bg} text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-500`;
+                quizCard.className = `p-5 rounded-2xl border mb-4 transition-all duration-300 ${chosenTheme.card}`;
+                progressCard.className = `p-2.5 rounded-xl mb-4 transition-colors ${chosenTheme.prog}`;
+                mainTitle.className = `text-xl font-bold ${chosenTheme.title}`;
+                mainSubtitle.className = `text-xs text-slate-300 mt-0.5`;
+                questionContainer.className = `text-base font-bold mb-2.5 leading-relaxed transition-colors duration-500 ${chosenTheme.qText}`;
+                wrongbookSection.className = `p-5 rounded-2xl shadow-sm border mb-4 transition-colors duration-500 ${chosenTheme.wb}`;
+                wrongbookTitle.className = `font-semibold mb-2 flex items-center justify-between text-sm transition-colors duration-500 ${chosenTheme.wbt}`;
+                footer.className = `text-center py-3 text-xs text-slate-400 transition-colors duration-500`;
+            } else {
+                body.className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
+                quizCard.className = "bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-4";
+                progressCard.className = "bg-slate-100 p-2.5 rounded-xl mb-4 transition-colors";
+                mainTitle.className = "text-xl font-bold text-indigo-600";
+                mainSubtitle.className = "text-xs text-slate-500 mt-0.5";
+                questionContainer.className = "text-base font-bold text-slate-800 mb-2.5 leading-relaxed transition-colors duration-500";
+                wrongbookSection.className = "bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-4 transition-colors duration-500";
+                wrongbookTitle.className = "font-semibold text-slate-700 mb-2 flex items-center justify-between text-sm transition-colors duration-500";
+                footer.className = "text-center py-3 text-xs text-slate-400 transition-colors duration-500";
+            }
+        }
+
+        function loadQuestion() {
+            if (globalQuestionIndex >= shuffledBank.length) {
+                triggerVictory();
+                return;
+            }
+
+            isSubmitted = false;
+            isWordRevealed = false;
+            let currentQNum = globalQuestionIndex + 1;
+            let q = shuffledBank[globalQuestionIndex];
+
+            applyBossTheme(currentQNum);
+
+            let roundNum = Math.floor(globalQuestionIndex / 5) + 1;
+            let inRoundIdx = (globalQuestionIndex % 5) + 1;
+
+            document.getElementById('progress-round-text').innerText = `🔥 第 ${roundNum} 關 (總第 ${currentQNum} 題) (${currentStudent})`;
+            document.getElementById('progress-count-text').innerText = `本關進度：${inRoundIdx} / 5`;
+            let pct = (inRoundIdx / 5) * 100;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+
+            let sent = q.sent_en;
+            let matchedWord = findMatchedWordInSentence(sent, q.answer_en);
+            currentMatchedWord = matchedWord;
+
+            let regex = new RegExp(`\\b(${matchedWord})\\b`, 'i');
+            let parts = sent.split(regex);
+            
+            let prefix = parts[0] || "";
+            let suffix = parts[2] || "";
+
+            document.getElementById('question-prefix').innerText = `Q${currentQNum}. ${prefix}`;
+            document.getElementById('question-suffix').innerText = suffix;
+
+            let targetEl = document.getElementById('cloze-word-target');
+            targetEl.innerText = makeClozeWord(matchedWord, currentMode);
+            
+            targetEl.onclick = function() {
+                isWordRevealed = !isWordRevealed;
+                if (isWordRevealed) {
+                    targetEl.innerText = matchedWord;
+                    targetEl.className = "cursor-pointer text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500 font-bold transition inline-block my-0.5";
+                } else {
+                    targetEl.innerText = makeClozeWord(matchedWord, currentMode);
+                    targetEl.className = "cursor-pointer text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-500 hover:bg-indigo-900/50 transition inline-block my-0.5";
+                }
+            };
+
+            let subEl = document.getElementById('question-sub');
+            subEl.innerText = q.sent_zh;
+            subEl.classList.add('hidden');
+            let hintBtn = document.getElementById('toggle-hint-btn');
+            hintBtn.innerText = "💡 顯示中文提示";
+
+            let feedbackEl = document.getElementById('feedback-area');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.innerHTML = "";
+
+            let inputContainer = document.getElementById('input-mode-container');
+            let choiceContainer = document.getElementById('choice-mode-container');
+            let nextBtn = document.getElementById('next-btn');
+            nextBtn.classList.add('hidden');
+
+            if (currentMode === "1") {
+                inputContainer.classList.remove('hidden');
+                choiceContainer.classList.add('hidden');
+                let inputField = document.getElementById('user-answer-input');
+                inputField.value = "";
+                inputField.disabled = false;
+                inputField.focus();
+
+                inputField.oninput = function() {
+                    if (isSubmitted) return;
+                    let val = inputField.value.trim().toLowerCase();
+                    if (val === q.answer_en.toLowerCase() || val === currentMatchedWord.toLowerCase()) {
+                        triggerInputSubmit(true);
+                    }
+                };
+            } else {
+                inputContainer.classList.add('hidden');
+                choiceContainer.classList.remove('hidden');
+                
+                let distractorsEn = getSmartDistractors(q.answer_en, q.meaning_zh, 3);
+                let optionsData = [];
+                
+                if (currentMode === "2") {
+                    optionsData.push({ text: q.meaning_zh, subText: ` (${q.answer_en})`, rawEn: q.answer_en, isCorrect: true });
+                    distractorsEn.forEach(en => {
+                        let found = QUESTION_BANK.find(item => item.answer_en === en);
+                        if (found) {
+                            optionsData.push({ text: found.meaning_zh, subText: ` (${found.answer_en})`, rawEn: found.answer_en, isCorrect: false });
+                        }
+                    });
+                } else {
+                    optionsData.push({ text: q.answer_en, subText: ` (${q.meaning_zh})`, rawEn: q.answer_en, isCorrect: true });
+                    distractorsEn.forEach(en => {
+                        let found = QUESTION_BANK.find(item => item.answer_en === en);
+                        let mZh = found ? found.meaning_zh : "";
+                        optionsData.push({ text: en, subText: ` (${mZh})`, rawEn: en, isCorrect: false });
+                    });
+                }
+                optionsData.sort(() => Math.random() - 0.5);
+
+                choiceContainer.innerHTML = "";
+                optionsData.forEach(opt => {
+                    let btn = document.createElement('button');
+                    btn.type = "button";
+                    btn.className = "choice-option w-full text-left p-2.5 border border-slate-600 bg-slate-800/50 rounded-xl hover:bg-slate-700/50 transition font-medium text-slate-200 text-sm";
+                    btn.innerText = opt.text;
+                    
+                    btn.onclick = function() {
+                        if (isSubmitted) return;
+                        isSubmitted = true;
+                        
+                        let isCorrect = opt.isCorrect;
+                        let chosenLabel = opt.rawEn;
+
+                        let allBtns = choiceContainer.querySelectorAll('.choice-option');
+                        allBtns.forEach((b, idx) => {
+                            b.disabled = true;
+                            let correspondingOpt = optionsData[idx];
+                            b.innerText = correspondingOpt.text + correspondingOpt.subText;
+
+                            if (correspondingOpt.isCorrect) {
+                                b.className = "choice-option w-full text-left p-2.5 border border-emerald-500 bg-emerald-950/80 text-emerald-300 font-bold rounded-xl transition text-sm";
+                            } else if (b === btn && !isCorrect) {
+                                b.className = "choice-option w-full text-left p-2.5 border border-rose-500 bg-rose-950/80 text-rose-300 font-bold rounded-xl transition text-sm";
+                            } else {
+                                b.className = "choice-option w-full text-left p-2.5 border border-slate-700 bg-slate-800/30 text-slate-500 rounded-xl transition opacity-50 text-sm";
+                            }
+                        });
+
+                        let feedbackEl = document.getElementById('feedback-area');
+                        feedbackEl.classList.remove('hidden');
+
+                        if (isCorrect) {
+                            feedbackEl.innerHTML = "<div class='text-emerald-400 font-bold'>✅ 回答正確！</div>";
+                            scoreInCurrentRound++;
+                        } else {
+                            feedbackEl.innerHTML = `<div class='text-rose-400 font-bold'>❌ 錯誤。正確答案：${q.answer_en} (${q.meaning_zh})</div>`;
+                            if (!wrongbook[q.answer_en]) {
+                                wrongbook[q.answer_en] = { ...q, count: 0 };
+                            }
+                            wrongbook[q.answer_en].count++;
+                            renderWrongbook();
+                        }
+
+                        records.push({ round: roundNum, qidx: globalQuestionIndex, chosen: chosenLabel, correct: q.answer_en, isCorrect });
+                        nextBtn.classList.remove('hidden');
+                    };
+                    choiceContainer.appendChild(btn);
+                });
+            }
+        }
+
+        function triggerInputSubmit(isCorrect) {
+            if (isSubmitted) return;
+            isSubmitted = true;
+            let q = shuffledBank[globalQuestionIndex];
+            let inputField = document.getElementById('user-answer-input');
+            let chosenLabel = inputField.value.trim();
+            inputField.disabled = true;
+
+            let feedbackEl = document.getElementById('feedback-area');
+            feedbackEl.classList.remove('hidden');
+            let roundNum = Math.floor(globalQuestionIndex / 5) + 1;
+
+            if (isCorrect) {
+                feedbackEl.innerHTML = "<div class='text-emerald-400 font-bold'>✅ 回答正確！</div>";
+                scoreInCurrentRound++;
+            } else {
+                feedbackEl.innerHTML = `<div class='text-rose-400 font-bold'>❌ 錯誤。正確答案：<span class="underline">${q.answer_en}</span> (${q.meaning_zh})</div>`;
+                if (!wrongbook[q.answer_en]) {
+                    wrongbook[q.answer_en] = { ...q, count: 0 };
+                }
+                wrongbook[q.answer_en].count++;
+                renderWrongbook();
+            }
+
+            records.push({ round: roundNum, qidx: globalQuestionIndex, chosen: chosenLabel, correct: q.answer_en, isCorrect });
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        document.getElementById('submit-input-btn').onclick = function() {
+            if (isSubmitted) return;
+            let q = shuffledBank[globalQuestionIndex];
+            let inputField = document.getElementById('user-answer-input');
+            let val = inputField.value.trim().toLowerCase();
+            let isCorrect = (val === q.answer_en.toLowerCase() || val === currentMatchedWord.toLowerCase());
+            triggerInputSubmit(isCorrect);
+        };
+
+        function proceedToNext() {
+            let nextBtn = document.getElementById('next-btn');
+            if (!nextBtn.classList.contains('hidden')) {
+                globalQuestionIndex++;
+                let inRoundPos = globalQuestionIndex % 5;
+
+                if (inRoundPos === 0) {
+                    showRoundResult();
+                } else {
+                    loadQuestion();
+                }
+            }
+        }
+
+        document.getElementById('next-btn').onclick = proceedToNext;
+
+        document.body.onclick = function(e) {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.id === 'cloze-word-target' || e.target.closest('button')) {
+                return;
+            }
+            proceedToNext();
+        };
+
+        window.onkeydown = function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                proceedToNext();
+            }
+        };
+
+        function showRoundResult() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+            document.getElementById('back-to-setup-btn').classList.add('hidden');
+
+            let total = records.length;
+            let correct = records.filter(r => r.isCorrect).length;
+            let acc = total > 0 ? (correct / total * 100).toFixed(1) : 0;
+
+            document.getElementById('res-student').innerText = currentStudent;
+            document.getElementById('res-total').innerText = total;
+            document.getElementById('res-correct').innerText = correct;
+            document.getElementById('res-acc').innerText = `${acc}%`;
+
+            let currentLevel = Math.floor(globalQuestionIndex / 5);
+            let totalCorrectSoFar = records.filter(r => r.isCorrect).length;
+            syncScoreToCloud(currentStudent, currentLevel, totalCorrectSoFar);
+
+            let continueContainer = document.getElementById('continue-container');
+            let resultTitle = document.getElementById('result-title');
+
+            if (scoreInCurrentRound === 5) {
+                resultTitle.innerHTML = "🎉 本關 5 題全部答對！太神啦！";
+                if (globalQuestionIndex < shuffledBank.length) {
+                    continueContainer.classList.remove('hidden');
+                } else {
+                    triggerVictory();
+                }
+            } else {
+                resultTitle.innerHTML = "📊 本關結算（未全對）";
+                continueContainer.classList.remove('hidden');
+            }
+        }
+
+        document.getElementById('continue-btn').onclick = function() {
+            document.getElementById('result-section').classList.add('hidden');
+            startNewRound();
+        };
+
+        function triggerVictory() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('back-to-setup-btn').classList.add('hidden');
+            document.getElementById('victory-overlay').classList.remove('hidden');
+        }
+
+        document.getElementById('victory-close-btn').onclick = function() {
+            document.getElementById('victory-overlay').classList.add('hidden');
+            document.getElementById('setup-section').classList.remove('hidden');
+            document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
+            fetchCloudRecords();
+        };
+
+        document.getElementById('back-to-setup-btn').onclick = function() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('setup-section').classList.remove('hidden');
+            document.getElementById('back-to-setup-btn').classList.add('hidden');
+            document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
+            fetchCloudRecords();
+        };
+
+        document.getElementById('toggle-hint-btn').onclick = function() {
+            let subEl = document.getElementById('question-sub');
+            if (subEl.classList.contains('hidden')) {
+                subEl.classList.remove('hidden');
+                this.innerText = "隱藏中文提示";
+            } else {
+                subEl.classList.add('hidden');
+                this.innerText = "💡 顯示中文提示";
+            }
+        };
+
+        function renderWrongbook() {
+            let container = document.getElementById('wrongbook-list');
+            let keys = Object.keys(wrongbook);
+            document.getElementById('wrong-count-badge').innerText = `${keys.length} 題`;
+
+            if (keys.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 italic text-xs">目前沒有錯題記錄。</p>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            keys.forEach(key => {
+                let w = wrongbook[key];
+                let div = document.createElement('div');
+                div.className = "p-2.5 bg-slate-100/10 border border-slate-600/50 rounded-xl text-xs space-y-1";
+                div.innerHTML = `
+                    <div class="font-bold flex justify-between">
+                        <span>${w.answer_en} (${w.meaning_zh})</span>
+                        <span class="text-rose-400 font-semibold">錯 ${w.count} 次</span>
+                    </div>
+                    <div class="opacity-80">例句：${w.sent_en}</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.onclick = function() {
+                document.querySelectorAll('.mode-btn').forEach(b => {
+                    b.className = "mode-btn py-2 px-2 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition";
+                });
+                this.className = "mode-btn py-2 px-2 text-xs font-medium rounded-lg border border-indigo-600 bg-indigo-600 text-white transition";
+                currentMode = this.getAttribute('data-mode');
+                renderStudentSelect();
+            };
+        });
+
+        document.getElementById('start-btn').onclick = initQuiz;
+        document.getElementById('restart-btn').onclick = function() {
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('setup-section').classList.remove('hidden');
+            document.getElementById('page-body').className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between transition-colors duration-500";
+            fetchCloudRecords();
+        };
+    </script>
 </body>
 </html>
